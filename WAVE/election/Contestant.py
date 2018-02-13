@@ -1,15 +1,16 @@
 class Contestant:
-    def __init__(self):
-        pass
+    def __init__(self, ID, name):
+        self._id = ID
+        self._name = name
 
     def get_id(self):
-        pass
+        return self._id
 
-    def set_id(self):
-        pass
+    def set_id(self, ID):
+        self._id = ID
 
     def get_name(self):
-        pass
+        return self._name
 
-    def set_name(self):
-        pass
+    def set_name(self, name):
+        self._name = name
