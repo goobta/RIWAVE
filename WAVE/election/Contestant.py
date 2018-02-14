@@ -14,3 +14,10 @@ class Contestant:
 
     def set_name(self, name):
         self._name = name
+
+    def equals(self, contestant):
+        if isinstance(contestant, Contestant):
+            if contestant.get_name() == self.get_name():
+                return True
+
+        return False

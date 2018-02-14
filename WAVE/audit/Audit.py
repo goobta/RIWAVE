@@ -3,6 +3,10 @@ from abc import ABC, abstractmethod
 
 class Audit(ABC):
     @abstractmethod
+    def init(self, results):
+        pass
+
+    @abstractmethod
     def get_progress(self):
         pass
 
@@ -23,7 +27,11 @@ class Audit(ABC):
         pass
 
     @abstractmethod
-    def recompute(self, ballot):
+    def recompute(self, ballots, results):
+        pass
+
+    @abstractmethod
+    def compute(self, ballot):
         pass
 
     @abstractmethod

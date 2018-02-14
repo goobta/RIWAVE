@@ -1,1 +1,1 @@
-from WAVE.audit.Audit import Audit
+from audit.Audit import Audit
