@@ -57,7 +57,7 @@ class RLA(audits.Audit):
             self._T += (1 - self._margin) / .50
 
         for i in range(len(self._cached_results)):
-            if self._cached_results[i].get_contestant.equals(ballot_vote):
+            if self._cached_results[i][0].equals(ballot_vote):
                 self._cached_results[i][1] += 1
                 break
 
@@ -78,4 +78,15 @@ class RLA(audits.Audit):
             self.compute(ballot)
 
     def get_current_result(self):
-        pass
+        count = 0
+
+        for result in self._cached_results:
+            count += result[1]
+
+        audit_results = []
+
+        for person in self._cached_results:
+            result = Result(person[0], person[1] / count)
+            audit_results.append(result)
+
+        reutrn audit_results
