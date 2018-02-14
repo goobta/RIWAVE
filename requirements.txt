@@ -1,20 +1,24 @@
 # This file may be used to create an environment using:
 # $ conda create --name <env> --file <this file>
-# platform: osx-64
-ca-certificates=2017.08.26=ha1e5d58_0
+# platform: win-64
+ca-certificates=2017.08.26=h94faf87_0
 certifi=2018.1.18=py36_0
-libcxx=4.0.1=h579ed51_0
-libcxxabi=4.0.1=hebd6815_0
-libedit=3.1=hb4e282d_0
-libffi=3.2.1=h475c297_4
-ncurses=6.0=hd04f020_2
-openssl=1.0.2n=hdbc3d79_0
-pip=9.0.1=py36h1555ced_4
-python=3.6.4=hc167b69_1
-readline=7.0=hc1231fa_4
-setuptools=38.4.0=py36_0
-sqlite=3.22.0=h3efe00b_0
-tk=8.6.7=h35a86e2_3
-wheel=0.30.0=py36h5eb2c71_1
-xz=5.2.3=h0278029_2
-zlib=1.2.11=hf3cbc9b_2
+icu=58.2=vc14_0
+jpeg=9b=vc14_2
+libiconv=1.14=vc14_4
+libpng=1.6.34=vc14_0
+libtiff=4.0.9=vc14_0
+libxml2=2.9.5=vc14_1
+libxslt=1.1.32=vc14_0
+openssl=1.0.2n=h74b6da3_0
+pip=9.0.1=py36h226ae91_4
+pyqt=5.6.0=py36hb5ed885_5
+python=3.6.4=h6538335_1
+qt=5.6.2=vc14h6f8c307_12
+setuptools=27.2.0=py36_1
+sip=4.18.1=py36h9c25514_2
+sqlite=3.22.0=h9d3ae62_0
+vc=14=h0510ff6_3
+vs2015_runtime=14.0.25123=3
+wheel=0.30.0=py36h6c3ec14_1
+zlib=1.2.11=vc14_0
