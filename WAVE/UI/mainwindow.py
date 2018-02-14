@@ -506,6 +506,78 @@ class Ui_MainWindow(object):
         self.actualValueComboBox_2.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
+    def getSpecialValueLabel(self):
+        return self.specialValueLabel;
+
+    def getAuditTable(self):
+        return self.auditTable;
+
+    def getCandidateGridLayout(self):
+        return self.gridLayout;
+
+    def getCandidateNameReportedResultsVeriticalLayout(self):
+        return self.verticalLayout;
+
+    def getCandidateValueReportedResultsVerticalLayout(self):
+        return self.gridLayout_2;
+
+    def getAuditedBallotValue(self):
+        return self.auditedBallotValue;
+
+    def getBallotReportedValueName(self):
+        return self.reportedValueName;
+
+    def getBallotActualValueComboBox(self):
+        return self.actualValueComboBox;
+
+    def getBallotActualValueComboBoxIndex(self):
+        return self.actualValueComboBox.currentIndex();
+
+    def getEditElectionButton(self):
+        return self.pushButton;
+
+    def getJustSaveChangesButton(self):
+        return self.justSaveButton;
+
+    def getSaveChangesAndContinueButton(self):
+        return self.saveAndNextButton;
+
+    def getRecomputeButton(self):
+        return self.recomputeButton;
+
+    def getExportResultsButton(self):
+        return self.exportButton;
+
+    def getToleranceLabel(self):
+        return self.toleranceLabel;
+
+    def getToleranceValueLabel(self):
+        return self.toleranceValue;
+
+    def getSpecialValueLabel(self):
+        return self.specialValueLabel;
+
+    def getSpecialValueValue(self):
+        return self.specialValueValue;
+
+    def getAuditTypeComboBox(self):
+        return self.actualValueComboBox_2;
+
+    def getAuditTypeComboBoxSelectedIndex(self):
+        return str(self.actualValueComboBox_2.currentIndex());
+
+    def getStatusLabel(self):
+        return self.statusLabel;
+
+    def getTValueValueLabel(self):
+        return self.tValue;
+
+    def getTLabelLabel(self):
+        return self.tLabel;
+
+
+
+
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
