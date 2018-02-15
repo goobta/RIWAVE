@@ -1,7 +1,7 @@
-import WAVE.audit as audits
+import audit as audit
 
 
-class RLA(audits.Audit):
+class RLA(audit.Audit):
     name = "Risk Limiting Audit"
     status_codes = ["In Progress", 
                     "Election Results Verified",
@@ -9,16 +9,22 @@ class RLA(audits.Audit):
 
     def __init__(self):
         self._T = 1
+        self._s = -1
+        self._margin = -1
+        self._winner = -1
         self._tolerance = -1
+
+        self._status = 0
+        self._cached_results = list()
+
+    def init(self, results):
+        self._T = 1
         self._s = -1
         self._margin = -1
         self._winner = -1
 
         self._status = 0
         self._cached_results = list()
-
-    def init(self, results):
-        self.__init__()
 
         results_sorted = sorted(results, 
                                 key=lambda r: r.get_percentage(),
@@ -46,7 +52,9 @@ class RLA(audits.Audit):
         return param
 
     def set_parameters(self, param):
+        print(param)
         self._tolerance = param[0]
+        print(self._tolerance)
 
     def compute(self, ballot):
         ballot_vote = ballot.get_actual_value()
@@ -64,6 +72,8 @@ class RLA(audits.Audit):
         self._refresh_status()
 
     def _refresh_status(self):
+        print(self.get_progress())
+
         if self._T > 9.9:
             self._status = 1
         elif self._T < 0.011:
@@ -73,6 +83,13 @@ class RLA(audits.Audit):
 
     def recompute(self, ballots, results):
         self.init(results)
+
+        print("settings")
+        print(self._s)
+        print(self._tolerance)
+        print(self._margin)
+        print(self._margin / .5)
+        print(self._winner.get_name())
 
         for ballot in ballots:
             self.compute(ballot)
@@ -89,4 +106,4 @@ class RLA(audits.Audit):
             result = Result(person[0], person[1] / count)
             audit_results.append(result)
 
-        reutrn audit_results
+        return audit_results
