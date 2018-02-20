@@ -1,6 +1,6 @@
 import math
 from random import shuffle
-import WAVE.election as election
+import election
 
 
 class Pres2016:

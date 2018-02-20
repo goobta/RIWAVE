@@ -1,27 +1,21 @@
-import WAVE.election
-import WAVE.audit
-import WAVE.data_gen
+import election
+import audit
+import data_gen
 import sys
 
 
 if __name__ != "__main__":
     sys.exit(1)
 
-pres = WAVE.data_gen.Pres2016()
-pres.gen_ballots(1000, .03)
+pres = data_gen.Pres2016()
+pres.gen_ballots(1000, .00)
 
 e = pres.get_election()
 
 for i, ballot in enumerate(e.get_ballots()):
-    print("Ballot")
-    print(ballot.get_audit_seq_num())
-    print("Reported Value")
-    print(ballot.get_reported_value().get_name())
-    print("Actual value")
-    print(ballot.get_actual_value().get_name())
-    print("\n")
+    print("Ballot " + str(ballot.get_audit_seq_num()) + " Reported Value " + str(ballot.get_reported_value().get_name()) + " Actual value " + str(ballot.get_actual_value().get_name()))
 
-rla = WAVE.audit.RLA()
+rla = audit.RLA()
 rla.init(pres.get_reported_results())
 
 rla.set_parameters([0.01])

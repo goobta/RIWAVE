@@ -1,4 +1,5 @@
-import audit as audit
+import audit
+import election
 
 
 class RLA(audit.Audit):
@@ -21,7 +22,7 @@ class RLA(audit.Audit):
         self._T = 1
         self._s = -1
         self._margin = -1
-        self._winner = -1
+        self._winner = None
 
         self._status = 0
         self._cached_results = list()
@@ -62,18 +63,18 @@ class RLA(audit.Audit):
         if ballot_vote.equals(self._winner):
             self._T *= self._margin / .50
         else:
-            self._T += (1 - self._margin) / .50
+            self._T *= (1 - self._margin) / .50
 
         for i in range(len(self._cached_results)):
             if self._cached_results[i][0].equals(ballot_vote):
                 self._cached_results[i][1] += 1
                 break
 
+        print(str(self._T) + " " + ballot.get_reported_value().get_name() + " " + ballot.get_actual_value().get_name())
+
         self._refresh_status()
 
     def _refresh_status(self):
-        print(self.get_progress())
-
         if self._T > 9.9:
             self._status = 1
         elif self._T < 0.011:
@@ -103,7 +104,7 @@ class RLA(audit.Audit):
         audit_results = []
 
         for person in self._cached_results:
-            result = Result(person[0], person[1] / count)
+            result = election.Result(person[0], person[1] / count)
             audit_results.append(result)
 
         return audit_results
