@@ -1,7 +1,8 @@
-import WAVE.audit as audits
+import audit
+import election
 
 
-class RLA(audits.Audit):
+class RLA(audit.Audit):
     name = "Risk Limiting Audit"
     status_codes = ["In Progress", 
                     "Election Results Verified",
@@ -9,16 +10,22 @@ class RLA(audits.Audit):
 
     def __init__(self):
         self._T = 1
-        self._tolerance = -1
         self._s = -1
         self._margin = -1
         self._winner = -1
+        self._tolerance = -1
 
         self._status = 0
         self._cached_results = list()
 
     def init(self, results):
-        self.__init__()
+        self._T = 1
+        self._s = -1
+        self._margin = -1
+        self._winner = None
+
+        self._status = 0
+        self._cached_results = list()
 
         results_sorted = sorted(results, 
                                 key=lambda r: r.get_percentage(),
@@ -46,7 +53,9 @@ class RLA(audits.Audit):
         return param
 
     def set_parameters(self, param):
+        print(param)
         self._tolerance = param[0]
+        print(self._tolerance)
 
     def compute(self, ballot):
         ballot_vote = ballot.get_actual_value()
@@ -54,12 +63,14 @@ class RLA(audits.Audit):
         if ballot_vote.equals(self._winner):
             self._T *= self._margin / .50
         else:
-            self._T += (1 - self._margin) / .50
+            self._T *= (1 - self._margin) / .50
 
         for i in range(len(self._cached_results)):
             if self._cached_results[i][0].equals(ballot_vote):
                 self._cached_results[i][1] += 1
                 break
+
+        print(str(self._T) + " " + ballot.get_reported_value().get_name() + " " + ballot.get_actual_value().get_name())
 
         self._refresh_status()
 
@@ -74,6 +85,13 @@ class RLA(audits.Audit):
     def recompute(self, ballots, results):
         self.init(results)
 
+        print("settings")
+        print(self._s)
+        print(self._tolerance)
+        print(self._margin)
+        print(self._margin / .5)
+        print(self._winner.get_name())
+
         for ballot in ballots:
             self.compute(ballot)
 
@@ -86,7 +104,7 @@ class RLA(audits.Audit):
         audit_results = []
 
         for person in self._cached_results:
-            result = Result(person[0], person[1] / count)
+            result = election.Result(person[0], person[1] / count)
             audit_results.append(result)
 
-        reutrn audit_results
+        return audit_results

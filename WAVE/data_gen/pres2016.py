@@ -1,4 +1,5 @@
 import math
+from random import shuffle
 import election
 
 
@@ -7,10 +8,11 @@ class Pres2016:
         self._election = election.Election()
 
         self._gen_and_set_candidates()
+        self._set_reported_results()
 
-    def get_election(self):
-        return self._election()
-
+    def get_election(self): 
+        return self._election
+    
     def _gen_and_set_candidates(self):
         self._contestants = []
 
@@ -35,32 +37,36 @@ class Pres2016:
         
         self._election.set_reported_results(self._results)
 
-    def _gen_ballots(self, count, error):
+    def get_reported_results(self):
+        return self._results
+
+    def gen_ballots(self, count, error):
         sorted_results = sorted(self._results, 
-                                key=lambda r: r.get_percentage,
-                                reversed=True)
-
-        ballot_count = []
-
-        for i, result in enumerate(sorted_results):
-            if i == 0:
-                ballot_count.append(result.get_contestant(),
-                                    math.floor((result.get_percentage() + error)
-                                                * count))
-            
-            elif i == 1:
-                ballot_count.append(result.get_contestant(),
-                                    math.floor((result.get_percentage() - error)
-                                                * count))
-
-            else:
-                ballot_count.append(result.get_contestant(),
-                                    math.floor(result.get_percentage() * count))
-
-        true_count = 0
+                                key=lambda r: r.get_percentage(),
+                                reverse=True)
 
         ballots = []
+        running_count = 0
 
-        for batch in ballot_count:
-            for i in range(batch[1]):
-                
+        for i, result in enumerate(sorted_results):
+            for j in range(int(result.get_percentage() * count)):
+                ballot = election.Ballot()
+
+                ballot.set_physical_ballot_num(running_count)
+                ballot.set_audit_seq_num(running_count)
+                ballot.set_reported_value(result.get_contestant())
+
+                if i == 0 and j < error * result.get_percentage() * count:
+                    ballot.set_actual_value(sorted_results[i + 1].get_contestant())
+                else:
+                    ballot.set_actual_value(result.get_contestant())
+
+                ballots.append(ballot)
+                running_count += 1
+
+        shuffle(ballots)
+        shuffle(ballots)
+        shuffle(ballots)
+
+        self._ballots = ballots
+        self._election.set_ballots(ballots)
