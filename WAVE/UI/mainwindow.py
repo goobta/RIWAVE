@@ -8,8 +8,16 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QTableWidget,QTableWidgetItem
+import enum
+
 
 class Ui_MainWindow(object):
+    class TableNum(enum.IntEnum):
+        AUDIT_NUM = 0
+        BALLOT_NUM = 1
+        REPORTED_VALUE = 2
+        ACTUAL_VALUE = 3
+
     def __init__(self):
         self._election = None
         self._current_ballot = None
@@ -659,30 +667,28 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", 
                                              "MainWindow"))
+        self.mainPageSectionLabel.setText(_translate("MainWindow", "RI WAVE - AUDIT"))
 
-        # Ballot Candidate Selection
-        self.actualValueLabel.setText(_translate("MainWindow", "Actual Value"))
-        self.actualValueComboBox.setCurrentText(_translate("MainWindow", "Select Candidate"))
-        self.actualValueComboBox.setItemText(0, _translate("MainWindow", "Select Candidate"))
+        # Table Setup
+        self.auditTable.horizontalHeaderItem(Ui_MainWindow.TableNum.AUDIT_NUM).setText(_translate("MainWindow", "Audit #"))
+        self.auditTable.horizontalHeaderItem(Ui_MainWindow.TableNum.BALLOT_NUM).setText(_translate("MainWindow", "Actual Ballot #"))
+        self.auditTable.horizontalHeaderItem(Ui_MainWindow.TableNum.REPORTED_VALUE).setText(_translate("MainWindow", "Reported Value"))
+        self.auditTable.horizontalHeaderItem(Ui_MainWindow.TableNum.ACTUAL_VALUE).setText(_translate("MainWindow", "Actual Value"))
 
-        self.reportedValueLabel.setText(_translate("MainWindow", "Reported Value"))
-        self.reportedValueComboBox.setCurrentText(_translate("MainWindow", "Select Candidate"))
+        for i, ballot in enumerate(sorted(self._election.get_ballots(), key=lambda x: x.get_audit_seq_num(), reverse=True)):
+            self.setTableCell(i, Ui_MainWindow.TableNum.AUDIT_NUM, str(i))
+            self.setTableCell(i, Ui_MainWindow.TableNum.BALLOT_NUM, str(ballot.get_physical_ballot_num()))
+            self.setTableCell(i, Ui_MainWindow.TableNum.REPORTED_VALUE, ballot.get_reported_value().get_name())
+            self.setTableCell(i, Ui_MainWindow.TableNum.ACTUAL_VALUE, ballot.get_actual_value().get_name())
 
-        for i, candidate in enumerate(self._election.get_contestants()):
-            self.actualValueComboBox.setItemText(i + 1, _translate("MainWindow", candidate.get_name()))
-            self.reportedValueComboBox.setItemText(i + 1, _translate("MainWindow", candidate.get_name()))
+        # Edit Election
+        self.pushButton.setText(_translate("MainWindow", "Edit Election"))
 
-        self.justSaveButton.setText(_translate("MainWindow", "Save Changes"))
-        self.saveAndNextButton.setText(_translate("MainWindow", "Save and Continue"))
-        
-        item = self.auditTable.horizontalHeaderItem(0)
-        item.setText(_translate("MainWindow", "Audit #"))
-        item = self.auditTable.horizontalHeaderItem(1)
-        item.setText(_translate("MainWindow", "Actual Ballot #"))
-        item = self.auditTable.horizontalHeaderItem(2)
-        item.setText(_translate("MainWindow", "Reported Value"))
-        item = self.auditTable.horizontalHeaderItem(3)
-        item.setText(_translate("MainWindow", "Actual Value"))
+        # Election Details
+        self.electionDetailsSectionLabel.setText(_translate("MainWindow", "Election Details"))
+
+        # Contestant Selection
+        # TODO: Make this dynamic
 
         self.contestantsSubSectionLabel.setText(_translate("MainWindow", "Contestants:"))
         self.candidate0NameLabel.setText(_translate("MainWindow", "Trump"))
@@ -695,14 +701,30 @@ class Ui_MainWindow(object):
         self.candidate2Percentage.setText(_translate("MainWindow", "25%"))
         self.candidate3Percentage.setText(_translate("MainWindow", "25%"))
 
-        self.pushButton.setText(_translate("MainWindow", "Edit Election"))
+        # Current Ballot
+        # === Current Ballot Info
+
         self.currentBallotLabel.setText(_translate("MainWindow", "Current Ballot"))
         self.auditedBallotLabel.setText(_translate("MainWindow", "Audited Ballot #"))
         self.auditedBallotValue.setText(_translate("MainWindow", "1"))
-        self.electionDetailsSectionLabel.setText(_translate("MainWindow", "Election Details"))
-        self.mainPageSectionLabel.setText(_translate("MainWindow", "RI WAVE - AUDIT"))
 
+        # === Ballot Candidate Selection
 
+        self.actualValueLabel.setText(_translate("MainWindow", "Actual Value"))
+        self.actualValueComboBox.setCurrentText(_translate("MainWindow", "Select Candidate"))
+        self.actualValueComboBox.setItemText(0, _translate("MainWindow", "Select Candidate"))
+
+        self.reportedValueLabel.setText(_translate("MainWindow", "Reported Value"))
+        self.reportedValueComboBox.setCurrentText(_translate("MainWindow", "Select Candidate"))
+
+        for i, candidate in enumerate(self._election.get_contestants()):
+            self.actualValueComboBox.setItemText(i + 1, _translate("MainWindow", candidate.get_name()))
+            self.reportedValueComboBox.setItemText(i + 1, _translate("MainWindow", candidate.get_name()))
+
+        # ==== Save Buttons
+
+        self.justSaveButton.setText(_translate("MainWindow", "Save Changes"))
+        self.saveAndNextButton.setText(_translate("MainWindow", "Save and Continue"))
 
 if __name__ == "__main__":
     import sys
