@@ -2,6 +2,8 @@ import election
 import audit
 import data_gen
 import sys
+from PyQt5 import QtCore, QtGui, QtWidgets
+import UI
 
 
 if __name__ != "__main__":
@@ -22,3 +24,5 @@ rla.set_parameters([0.01])
 rla.recompute(e.get_ballots(), pres.get_reported_results())
 
 print(rla.get_progress())
+
+app = QT
