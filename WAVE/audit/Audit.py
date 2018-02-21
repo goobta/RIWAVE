@@ -14,9 +14,10 @@ class Audit(ABC):
     def get_status(self):
         pass
 
+    @staticmethod
     @abstractmethod
-    def get_name(self):
-        pass
+    def get_name():
+        return "Select Audit"
 
     @abstractmethod
     def get_parameters(self):

@@ -44,7 +44,8 @@ class RLA(audit.Audit):
     def get_status(self):
         return RLA.status_codes[self._status]
 
-    def get_name(self):
+    @staticmethod
+    def get_name():
         return RLA.name
 
     def get_parameters(self):

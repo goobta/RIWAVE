@@ -9,6 +9,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QTableWidget,QTableWidgetItem
 import enum
+import audit
 
 
 class Ui_MainWindow(object):
@@ -21,9 +22,14 @@ class Ui_MainWindow(object):
     def __init__(self):
         self._election = None
         self._current_ballot = None
+        self._audit = None
 
-    def set_election(self, election):
+        self._audits = audit.get_audits()
+
+
+    def init(self, election, audit):
         self._election = election
+        self._audit = audit
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -433,12 +439,10 @@ class Ui_MainWindow(object):
         font.setBold(False)
         font.setWeight(50)
         self.actualValueComboBox_2.setFont(font)
-        self.actualValueComboBox_2.setMaxVisibleItems(6)
+        self.actualValueComboBox_2.setMaxVisibleItems(5)
         self.actualValueComboBox_2.setMaxCount(20)
         self.actualValueComboBox_2.setMinimumContentsLength(1)
         self.actualValueComboBox_2.setObjectName("actualValueComboBox_2")
-        self.actualValueComboBox_2.addItem("")
-        self.actualValueComboBox_2.addItem("")
         self.gridLayout_2.addWidget(self.actualValueComboBox_2, 10, 11, 1, 1)
         self.specialValueLabel = QtWidgets.QLabel(self.centralwidget)
         font = QtGui.QFont()
@@ -734,6 +738,28 @@ class Ui_MainWindow(object):
 
         self.justSaveButton.setText(_translate("MainWindow", "Save Changes"))
         self.saveAndNextButton.setText(_translate("MainWindow", "Save and Continue"))
+
+        # Audit Status
+
+        if self._audit is not None:
+            self.tLabel.setText(_translate("MainWindow", self._audit.get_progress()))
+            self.actualValueComboBox_2.setCurrentText(_translate("MainWindow", self._audit.get_name()))
+            print(self._audit.get_name())
+
+        else:
+            print("Not here")
+            self.tLabel.setText(_translate("MainWindow", "Please select \nan audit"))
+            self.actualValueComboBox_2.setCurrentText(_translate("MainWindow", "Select Audit"))
+
+        # Audit selector drop down
+        for i, current_audit in enumerate(self._audits):
+            print(current_audit.get_name())
+            self.actualValueComboBox_2.addItem(current_audit.get_name())
+
+
+        # self.specialValueLabel.setText(_translate("MainWindow", "Risk-limit:"))
+        # self.tValue.setText(_translate("MainWindow", "8.99"))
+
 
 if __name__ == "__main__":
     import sys

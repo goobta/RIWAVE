@@ -3,6 +3,7 @@ import inspect
 
 from audit.Audit import Audit
 from audit.RLA import RLA
+from audit.Bayesian import Bayesian
 
 
 def get_audits():
@@ -12,4 +13,5 @@ def get_audits():
         if inspect.isclass(obj):
             audits.append(obj)
 
+    print(audits)
     return audits
