@@ -218,8 +218,6 @@ class Ui_MainWindow(object):
         self.actualValueComboBox_2.setMaxCount(20)
         self.actualValueComboBox_2.setMinimumContentsLength(1)
         self.actualValueComboBox_2.setObjectName("actualValueComboBox_2")
-        self.actualValueComboBox_2.addItem("")
-        self.actualValueComboBox_2.addItem("")
         self.gridLayout_2.addWidget(self.actualValueComboBox_2, 9, 11, 1, 1)
         self.label_5 = QtWidgets.QLabel(self.centralwidget)
         font = QtGui.QFont()
