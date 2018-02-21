@@ -218,8 +218,6 @@ class Ui_MainWindow(object):
         self.actualValueComboBox_2.setMaxCount(20)
         self.actualValueComboBox_2.setMinimumContentsLength(1)
         self.actualValueComboBox_2.setObjectName("actualValueComboBox_2")
-        self.actualValueComboBox_2.addItem("")
-        self.actualValueComboBox_2.addItem("")
         self.gridLayout_2.addWidget(self.actualValueComboBox_2, 9, 11, 1, 1)
         self.label_5 = QtWidgets.QLabel(self.centralwidget)
         font = QtGui.QFont()
@@ -267,8 +265,8 @@ class Ui_MainWindow(object):
         font.setFamily("Calibri")
         font.setPointSize(7)
         self.contestantTable.setFont(font)
-        self.contestantTable.setRowCount(5)
-        self.contestantTable.setColumnCount(1)
+        self.contestantTable.setRowCount(10)
+        self.contestantTable.setColumnCount(2)
         self.contestantTable.setObjectName("contestantTable")
         self.contestantTable.horizontalHeader().setVisible(False)
         self.contestantTable.verticalHeader().setVisible(False)
@@ -467,7 +465,7 @@ class Ui_MainWindow(object):
 
 
 
-    def retranslateUi_backup(self, MainWindow):
+    def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         item = self.auditTable.horizontalHeaderItem(0)
@@ -478,13 +476,12 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "Reported Value"))
         item = self.auditTable.horizontalHeaderItem(3)
         item.setText(_translate("MainWindow", "Actual Value"))
+        self.recomputeButton.setText(_translate("MainWindow", "Recompute"))
         self.pushButton.setText(_translate("MainWindow", "Edit Election"))
         self.exportButton.setText(_translate("MainWindow", "Export Results"))
         self.mainPageSectionLabel.setText(_translate("MainWindow", "RI WAVE - AUDIT"))
         self.statusLabel.setText(_translate("MainWindow", "Status: OK"))
         self.electionDetailsSectionLabel.setText(_translate("MainWindow", "Election Details"))
-        self.recomputeButton.setText(_translate("MainWindow", "Recompute"))
-        self.toleranceLabel.setText(_translate("MainWindow", "Tolerance:"))
         self.specialValueValue.setText(_translate("MainWindow", "0.1"))
         self.toleranceValue.setText(_translate("MainWindow", "10%"))
         self.auditDetailsLabel.setText(_translate("MainWindow", "Audit Details"))
@@ -648,12 +645,20 @@ class Ui_MainWindow(object):
         # Contestant Selection
         # TODO: Make this dynamic
 
-        # self.contestantsSubSectionLabel.setText(_translate("MainWindow", "Contestants:"))
-        # self.candidate0NameLabel.setText(_translate("MainWindow", "Trump"))
-        # self.candidate1NameLabel.setText(_translate("MainWindow", "Clinton "))
-        # self.candidate2NameLabel.setText(_translate("MainWindow", "Johnson"))
-        # self.candidate3NameLabel.setText(_translate("MainWindow", "Stein"))
-        # self.label_4.setText(_translate("MainWindow", "Reported Results"))
+        self.contestantsSubSectionLabel.setText(_translate("MainWindow", "Contestants:"))
+
+        for i, candidate in enumerate(self._election.get_contestants()):
+            self.setContestantTableCell(i, 0, str(candidate.get_id()))
+            self.setContestantTableCell(i, 1, candidate.get_name())
+
+        self.label_4.setText(_translate("MainWindow", "Reported Results"))
+
+        for i, result in enumerate(sorted(self._election.get_reported_results(),
+                                          key=lambda x: x.get_percentage(),
+                                          reverse=True)):
+            self.setReportedResultsTableCell(i, 0, result.get_contestant().get_name())
+            self.setReportedResultsTableCell(i, 1, "%.1f" % (result.get_percentage() * 100) + "%")
+
         # self.candidate0Percentage.setText(_translate("MainWindow", "25%"))
         # self.candidate1Percentage.setText(_translate("MainWindow", "25%"))
         # self.candidate2Percentage.setText(_translate("MainWindow", "25%"))
@@ -711,10 +716,9 @@ class Ui_MainWindow(object):
             print(current_audit.get_name())
             self.actualValueComboBox_2.addItem(current_audit.get_name())
 
-
-        # self.specialValueLabel.setText(_translate("MainWindow", "Risk-limit:"))
-        # self.tValue.setText(_translate("MainWindow", "8.99"))
-
+        # Audit option buttons
+        self.recomputeButton.setText(_translate("MainWindow", "Recompute"))
+        self.exportButton.setText(_translate("MainWindow", "Export Results"))
 
 if __name__ == "__main__":
     import sys
