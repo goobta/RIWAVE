@@ -627,8 +627,6 @@ class Ui_MainWindow(object):
         self.electionDetailsSectionLabel.setText(_translate("MainWindow", "Election Details"))
 
         # Contestant Selection
-        # TODO: Make this dynamic
-
         self.contestantsSubSectionLabel.setText(_translate("MainWindow", "Contestants:"))
 
         for i, candidate in enumerate(self._election.get_contestants()):
@@ -642,11 +640,6 @@ class Ui_MainWindow(object):
                                           reverse=True)):
             self.setReportedResultsTableCell(i, 0, result.get_contestant().get_name())
             self.setReportedResultsTableCell(i, 1, "%.1f" % (result.get_percentage() * 100) + "%")
-
-        # self.candidate0Percentage.setText(_translate("MainWindow", "25%"))
-        # self.candidate1Percentage.setText(_translate("MainWindow", "25%"))
-        # self.candidate2Percentage.setText(_translate("MainWindow", "25%"))
-        # self.candidate3Percentage.setText(_translate("MainWindow", "25%"))
 
         # Current Ballot
         # === Current Ballot Info
