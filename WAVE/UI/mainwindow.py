@@ -636,6 +636,13 @@ class Ui_MainWindow(object):
             self.setContestantTableCell(i, 1, candidate.get_name())
 
         self.label_4.setText(_translate("MainWindow", "Reported Results"))
+
+        for i, result in enumerate(sorted(self._election.get_reported_results(),
+                                          key=lambda x: x.get_percentage(),
+                                          reverse=True)):
+            self.setReportedResultsTableCell(i, 0, result.get_contestant().get_name())
+            self.setReportedResultsTableCell(i, 1, "%.1f" % (result.get_percentage() * 100) + "%")
+
         # self.candidate0Percentage.setText(_translate("MainWindow", "25%"))
         # self.candidate1Percentage.setText(_translate("MainWindow", "25%"))
         # self.candidate2Percentage.setText(_translate("MainWindow", "25%"))
