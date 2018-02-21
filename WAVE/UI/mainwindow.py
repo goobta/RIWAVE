@@ -660,22 +660,6 @@ if __name__ == "__main__":
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
     MainWindow.show()
-    table = ui.getAuditTable()
-
-    ui.setTableCell(1,1,"HI")
-
-#Setting and adding rows to table:
-    # for row in range(5):
-    #     for col in range(3):
-    #         table.setItem(row, col, QTableWidgetItem("(%d, %d)" % (row, col)))
-    #
-    #
-    # print("1,0: %s" % table.item(1, 0).text())
-
-    #Adding a row:
-    # rowPosition = table.rowCount()
-    # table.insertRow(rowPosition)
-    # table.setItem(rowPosition, 1, QTableWidgetItem("(%d, %d)" % (row, col)))
 
 
     sys.exit(app.exec_())
