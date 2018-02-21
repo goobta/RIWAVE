@@ -39,12 +39,13 @@ class RLA(audit.Audit):
             self._cached_results.append([result.get_contestant(), 0])
 
     def get_progress(self):
-        return "T = " + str(self._T)
+        return "T = %.4f" % self._T
 
     def get_status(self):
         return RLA.status_codes[self._status]
 
-    def get_name(self):
+    @staticmethod
+    def get_name():
         return RLA.name
 
     def get_parameters(self):
