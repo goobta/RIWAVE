@@ -659,19 +659,18 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", 
                                              "MainWindow"))
-        
-        self.actualValueLabel.setText(_translate("MainWindow", "Actual Value"))
 
-        # Candidate Selection
-        self.actualValueComboBox.setCurrentIndex(_translate("MainWindow", "Select Candidate"))
-        self.setItemText(0, _translate("MainWindow", "Select Candidate"))
+        # Ballot Candidate Selection
+        self.actualValueLabel.setText(_translate("MainWindow", "Actual Value"))
+        self.actualValueComboBox.setCurrentText(_translate("MainWindow", "Select Candidate"))
+        self.actualValueComboBox.setItemText(0, _translate("MainWindow", "Select Candidate"))
+
+        self.reportedValueLabel.setText(_translate("MainWindow", "Reported Value"))
+        self.reportedValueComboBox.setCurrentText(_translate("MainWindow", "Select Candidate"))
 
         for i, candidate in enumerate(self._election.get_contestants()):
-            self.setItemText(i + 1, _translate("MainWindow", candidate.get_name()))
-        
-        self.reportedValueLabel.setText(_translate("MainWindow", "Reported Value"))
-
-        # TODO : Program the dropdown menu for the Reported Value dropdown
+            self.actualValueComboBox.setItemText(i + 1, _translate("MainWindow", candidate.get_name()))
+            self.reportedValueComboBox.setItemText(i + 1, _translate("MainWindow", candidate.get_name()))
 
         self.justSaveButton.setText(_translate("MainWindow", "Save Changes"))
         self.saveAndNextButton.setText(_translate("MainWindow", "Save and Continue"))
