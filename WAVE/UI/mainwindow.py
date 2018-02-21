@@ -463,11 +463,9 @@ class Ui_MainWindow(object):
         self.contestantTable.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
         self.reportedResultsTable.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
 
-        self.auditTable.clicked.connect(self.getCurrentAuditTableSelectedRow)
+        self.auditTable.clicked.connect(self.setCurrentBallotInformation)
 
-    def getCurrentAuditTableSelectedRow(self,tableItem):
-        #self.auditTable.setItem(self.auditTable.currentRow(), self.auditTable.currentColumn(), QtWidgets.QTableWidgetItem("HI"))
-        return self.auditTable.currentRow()
+
 
     def retranslateUi_backup(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -518,6 +516,24 @@ class Ui_MainWindow(object):
         self.auditedBallotLabel.setText(_translate("MainWindow", "Audited Ballot #"))
         self.auditedBallotValue.setText(_translate("MainWindow", "1"))
         self.currentBallotLabel.setText(_translate("MainWindow", "Current Ballot"))
+
+    def setCurrentBallotInformation(self,tableItem):
+        self.auditedBallotValue.setText(str(self.auditTable.currentRow()))
+        reportedValueName = self.auditTable.item(self.auditTable.currentRow(), 2).text()
+        index = self.reportedValueComboBox.findText(str(reportedValueName))#findText(str(name))
+        self.reportedValueComboBox.setCurrentIndex(index)
+
+
+        actualValueName = self.auditTable.item(self.auditTable.currentRow(), 3).text()
+        if(not actualValueName):
+            print("VALUE IS NULL")
+        else:
+            actualValueIndex = self.reportedValueComboBox.findText(str(actualValueName))  # findText(str(name))
+            self.actualValueComboBox.setCurrentIndex(actualValueIndex)
+
+
+
+
 
     def getSpecialValueLabel(self):
         return self.specialValueLabel;
@@ -645,6 +661,7 @@ class Ui_MainWindow(object):
 
         # Current Ballot
         # === Current Ballot Info
+       # self.auditedBallotValue.setText(_translate("MainWindow", ""))
 
         self.currentBallotLabel.setText(_translate("MainWindow", "Current Ballot"))
         self.auditedBallotLabel.setText(_translate("MainWindow", "Audited Ballot #"))
@@ -663,7 +680,7 @@ class Ui_MainWindow(object):
             self.reportedValueComboBox.setCurrentText(
                 _translate("MainWindow", self._current_ballot.get_reported_value().get_name()))
         else:
-            self.auditedBallotValue.setText(_translate("MainWindow", ""))
+            self.auditedBallotValue.setText(_translate("MainWindow", " "))
 
             self.actualValueComboBox.setCurrentText(_translate("MainWindow", "Select Candidate"))
             self.reportedValueComboBox.setCurrentText(_translate("MainWindow", "Select Candidate"))
