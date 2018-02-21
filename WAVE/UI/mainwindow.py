@@ -265,8 +265,8 @@ class Ui_MainWindow(object):
         font.setFamily("Calibri")
         font.setPointSize(7)
         self.contestantTable.setFont(font)
-        self.contestantTable.setRowCount(5)
-        self.contestantTable.setColumnCount(1)
+        self.contestantTable.setRowCount(10)
+        self.contestantTable.setColumnCount(2)
         self.contestantTable.setObjectName("contestantTable")
         self.contestantTable.horizontalHeader().setVisible(False)
         self.contestantTable.verticalHeader().setVisible(False)
@@ -467,7 +467,7 @@ class Ui_MainWindow(object):
         #self.auditTable.setItem(self.auditTable.currentRow(), self.auditTable.currentColumn(), QtWidgets.QTableWidgetItem("HI"))
         return self.auditTable.currentRow()
 
-    def retranslateUi_backup(self, MainWindow):
+    def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         item = self.auditTable.horizontalHeaderItem(0)
@@ -629,12 +629,13 @@ class Ui_MainWindow(object):
         # Contestant Selection
         # TODO: Make this dynamic
 
-        # self.contestantsSubSectionLabel.setText(_translate("MainWindow", "Contestants:"))
-        # self.candidate0NameLabel.setText(_translate("MainWindow", "Trump"))
-        # self.candidate1NameLabel.setText(_translate("MainWindow", "Clinton "))
-        # self.candidate2NameLabel.setText(_translate("MainWindow", "Johnson"))
-        # self.candidate3NameLabel.setText(_translate("MainWindow", "Stein"))
-        # self.label_4.setText(_translate("MainWindow", "Reported Results"))
+        self.contestantsSubSectionLabel.setText(_translate("MainWindow", "Contestants:"))
+
+        for i, candidate in enumerate(self._election.get_contestants()):
+            self.setContestantTableCell(i, 0, str(candidate.get_id()))
+            self.setContestantTableCell(i, 1, candidate.get_name())
+
+        self.label_4.setText(_translate("MainWindow", "Reported Results"))
         # self.candidate0Percentage.setText(_translate("MainWindow", "25%"))
         # self.candidate1Percentage.setText(_translate("MainWindow", "25%"))
         # self.candidate2Percentage.setText(_translate("MainWindow", "25%"))
