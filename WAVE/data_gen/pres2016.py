@@ -1,5 +1,5 @@
 import math
-from random import shuffle
+from random import shuffle, choice
 import election
 
 
@@ -46,14 +46,17 @@ class Pres2016:
                                 reverse=True)
 
         ballots = []
-        running_count = 0
+        audit_counts = [i for i in range(count)]
 
         for i, result in enumerate(sorted_results):
             for j in range(int(result.get_percentage() * count)):
+                current_count = choice(audit_counts)
+                audit_counts.remove(current_count)
+
                 ballot = election.Ballot()
 
-                ballot.set_physical_ballot_num(running_count)
-                ballot.set_audit_seq_num(running_count)
+                ballot.set_physical_ballot_num(current_count)
+                ballot.set_audit_seq_num(current_count)
                 ballot.set_reported_value(result.get_contestant())
 
                 if i == 0 and j < error * result.get_percentage() * count:
@@ -62,7 +65,6 @@ class Pres2016:
                     ballot.set_actual_value(result.get_contestant())
 
                 ballots.append(ballot)
-                running_count += 1
 
         shuffle(ballots)
         shuffle(ballots)

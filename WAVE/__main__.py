@@ -10,7 +10,7 @@ if __name__ != "__main__":
     sys.exit(1)
 
 pres = data_gen.Pres2016()
-pres.gen_ballots(1000, .00)
+pres.gen_ballots(100, .20)
 
 e = pres.get_election()
 
@@ -30,6 +30,7 @@ app = QtWidgets.QApplication(sys.argv)
 MainWindow = QtWidgets.QMainWindow()
 
 ui = UI.Ui_MainWindow()
+ui.set_election(e)
 ui.setupUi(MainWindow)
 
 MainWindow.show()

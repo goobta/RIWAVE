@@ -528,7 +528,7 @@ class Ui_MainWindow(object):
         self.reportedValueComboBox.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-    def retranslateUi(self, MainWindow):
+    def retranslateUi_backup(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.actualValueComboBox.setCurrentText(_translate("MainWindow", "Select Candidate"))
@@ -662,7 +662,7 @@ class Ui_MainWindow(object):
     def setTableCell(self,row,col,value):
         self.auditTable.setItem(row, col, QtWidgets.QTableWidgetItem(value))
 
-    def retranslateUi2(self, MainWindow):
+    def retranslateUi(self, MainWindow):
         # Generate the Basic Window
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", 
@@ -675,7 +675,7 @@ class Ui_MainWindow(object):
         self.auditTable.horizontalHeaderItem(Ui_MainWindow.TableNum.REPORTED_VALUE).setText(_translate("MainWindow", "Reported Value"))
         self.auditTable.horizontalHeaderItem(Ui_MainWindow.TableNum.ACTUAL_VALUE).setText(_translate("MainWindow", "Actual Value"))
 
-        for i, ballot in enumerate(sorted(self._election.get_ballots(), key=lambda x: x.get_audit_seq_num(), reverse=True)):
+        for i, ballot in enumerate(sorted(self._election.get_ballots(), key=lambda x: x.get_audit_seq_num())):
             self.setTableCell(i, Ui_MainWindow.TableNum.AUDIT_NUM, str(i))
             self.setTableCell(i, Ui_MainWindow.TableNum.BALLOT_NUM, str(ballot.get_physical_ballot_num()))
             self.setTableCell(i, Ui_MainWindow.TableNum.REPORTED_VALUE, ballot.get_reported_value().get_name())
