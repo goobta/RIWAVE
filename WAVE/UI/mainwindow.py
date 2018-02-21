@@ -511,6 +511,11 @@ class Ui_MainWindow(object):
         self.actualValueComboBox.setCurrentIndex(0)
         self.actualValueComboBox_2.setCurrentIndex(0)
         self.reportedValueComboBox.setCurrentIndex(0)
+        header = self.auditTable.horizontalHeader()
+        header.setSectionResizeMode(0, QtWidgets.QHeaderView.ResizeToContents)
+        header.setSectionResizeMode(1, QtWidgets.QHeaderView.ResizeToContents)
+        header.setSectionResizeMode(2, QtWidgets.QHeaderView.Stretch)
+        header.setSectionResizeMode(3, QtWidgets.QHeaderView.Stretch)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -574,6 +579,7 @@ class Ui_MainWindow(object):
         self.reportedValueComboBox.setItemText(2, _translate("MainWindow", "Clinton"))
         self.reportedValueComboBox.setItemText(3, _translate("MainWindow", "Johnson"))
         self.reportedValueComboBox.setItemText(4, _translate("MainWindow", "Stein"))
+
 
     def getSpecialValueLabel(self):
         return self.specialValueLabel;
@@ -660,8 +666,6 @@ if __name__ == "__main__":
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
     MainWindow.show()
-
-
     sys.exit(app.exec_())
 
 
