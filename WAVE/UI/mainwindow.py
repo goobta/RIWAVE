@@ -469,7 +469,7 @@ class Ui_MainWindow(object):
         #self.auditTable.setItem(self.auditTable.currentRow(), self.auditTable.currentColumn(), QtWidgets.QTableWidgetItem("HI"))
         return self.auditTable.currentRow()
 
-    def retranslateUi(self, MainWindow):
+    def retranslateUi_backup(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         item = self.auditTable.horizontalHeaderItem(0)
@@ -604,7 +604,7 @@ class Ui_MainWindow(object):
         self.auditTable.setItem(1, 1, QtWidgets.QTableWidgetItem(tableItem))
         return tableItem.currentRow()
 
-    def retranslateUi_backup(self, MainWindow):
+    def retranslateUi(self, MainWindow):
         # Generate the Basic Window
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", 
@@ -701,8 +701,6 @@ class Ui_MainWindow(object):
 
 if __name__ == "__main__":
     import sys
-
-
 
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
