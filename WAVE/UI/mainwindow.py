@@ -442,7 +442,7 @@ class Ui_MainWindow(object):
         self.contestantTable.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
         self.reportedResultsTable.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
 
-        #self.auditTable.clicked.connect(self.handle_item_clicked)
+        self.auditTable.clicked.connect(self.getCurrentAuditTableSelectedRow)
 
     def getCurrentAuditTableSelectedRow(self,tableItem):
         #self.auditTable.setItem(self.auditTable.currentRow(), self.auditTable.currentColumn(), QtWidgets.QTableWidgetItem("HI"))
