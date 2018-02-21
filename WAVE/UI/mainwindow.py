@@ -478,13 +478,12 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "Reported Value"))
         item = self.auditTable.horizontalHeaderItem(3)
         item.setText(_translate("MainWindow", "Actual Value"))
+        self.recomputeButton.setText(_translate("MainWindow", "Recompute"))
         self.pushButton.setText(_translate("MainWindow", "Edit Election"))
         self.exportButton.setText(_translate("MainWindow", "Export Results"))
         self.mainPageSectionLabel.setText(_translate("MainWindow", "RI WAVE - AUDIT"))
         self.statusLabel.setText(_translate("MainWindow", "Status: OK"))
         self.electionDetailsSectionLabel.setText(_translate("MainWindow", "Election Details"))
-        self.recomputeButton.setText(_translate("MainWindow", "Recompute"))
-        self.toleranceLabel.setText(_translate("MainWindow", "Tolerance:"))
         self.specialValueValue.setText(_translate("MainWindow", "0.1"))
         self.toleranceValue.setText(_translate("MainWindow", "10%"))
         self.auditDetailsLabel.setText(_translate("MainWindow", "Audit Details"))
@@ -692,10 +691,9 @@ class Ui_MainWindow(object):
             print(current_audit.get_name())
             self.actualValueComboBox_2.addItem(current_audit.get_name())
 
-
-        # self.specialValueLabel.setText(_translate("MainWindow", "Risk-limit:"))
-        # self.tValue.setText(_translate("MainWindow", "8.99"))
-
+        # Audit option buttons
+        self.recomputeButton.setText(_translate("MainWindow", "Recompute"))
+        self.exportButton.setText(_translate("MainWindow", "Export Results"))
 
 if __name__ == "__main__":
     import sys
