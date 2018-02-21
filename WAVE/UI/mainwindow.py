@@ -7,8 +7,16 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QTableWidget,QTableWidgetItem
 
 class Ui_MainWindow(object):
+    def __init__(self):
+        self._election = None
+        self._current_ballot = None
+
+    def set_election(self, election):
+        self._election = election
+
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(800, 600)
@@ -575,8 +583,57 @@ class Ui_MainWindow(object):
     def getTLabelLabel(self):
         return self.tLabel;
 
+    def setTableCell(self,row,col,value):
+        self.auditTable.setItem(row, col, QtWidgets.QTableWidgetItem(value))
 
+    def retranslateUi2(self, MainWindow):
+        # Generate the Basic Window
+        _translate = QtCore.QCoreApplication.translate
+        MainWindow.setWindowTitle(_translate("MainWindow", 
+                                             "MainWindow"))
+        
+        self.actualValueLabel.setText(_translate("MainWindow", "Actual Value"))
 
+        # Candidate Selection
+        self.actualValueComboBox.setCurrentIndex(_translate("MainWindow", "Select Candidate"))
+        self.setItemText(0, _translate("MainWindow", "Select Candidate"))
+
+        for i, candidate in enumerate(self._election.get_contestants()):
+            self.setItemText(i + 1, _translate("MainWindow", candidate.get_name()))
+        
+        self.reportedValueLabel.setText(_translate("MainWindow", "Reported Value"))
+
+        # TODO : Program the dropdown menu for the Reported Value dropdown
+
+        self.justSaveButton.setText(_translate("MainWindow", "Save Changes"))
+        self.saveAndNextButton.setText(_translate("MainWindow", "Save and Continue"))
+        
+        item = self.auditTable.horizontalHeaderItem(0)
+        item.setText(_translate("MainWindow", "Audit #"))
+        item = self.auditTable.horizontalHeaderItem(1)
+        item.setText(_translate("MainWindow", "Actual Ballot #"))
+        item = self.auditTable.horizontalHeaderItem(2)
+        item.setText(_translate("MainWindow", "Reported Value"))
+        item = self.auditTable.horizontalHeaderItem(3)
+        item.setText(_translate("MainWindow", "Actual Value"))
+
+        self.contestantsSubSectionLabel.setText(_translate("MainWindow", "Contestants:"))
+        self.candidate0NameLabel.setText(_translate("MainWindow", "Trump"))
+        self.candidate1NameLabel.setText(_translate("MainWindow", "Clinton "))
+        self.candidate2NameLabel.setText(_translate("MainWindow", "Johnson"))
+        self.candidate3NameLabel.setText(_translate("MainWindow", "Stein"))
+        self.label_4.setText(_translate("MainWindow", "Reported Results"))
+        self.candidate0Percentage.setText(_translate("MainWindow", "25%"))
+        self.candidate1Percentage.setText(_translate("MainWindow", "25%"))
+        self.candidate2Percentage.setText(_translate("MainWindow", "25%"))
+        self.candidate3Percentage.setText(_translate("MainWindow", "25%"))
+
+        self.pushButton.setText(_translate("MainWindow", "Edit Election"))
+        self.currentBallotLabel.setText(_translate("MainWindow", "Current Ballot"))
+        self.auditedBallotLabel.setText(_translate("MainWindow", "Audited Ballot #"))
+        self.auditedBallotValue.setText(_translate("MainWindow", "1"))
+        self.electionDetailsSectionLabel.setText(_translate("MainWindow", "Election Details"))
+        self.mainPageSectionLabel.setText(_translate("MainWindow", "RI WAVE - AUDIT"))
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate

@@ -25,12 +25,13 @@ rla.recompute(e.get_ballots(), pres.get_reported_results())
 
 print(rla.get_progress())
 
-# ===== Creating the UI =========
+# ===== Starting up the App =========
 app = QtWidgets.QApplication(sys.argv)
 MainWindow = QtWidgets.QMainWindow()
 
 ui = UI.Ui_MainWindow()
 ui.setupUi(MainWindow)
+
 MainWindow.show()
 
 sys.exit(app.exec_())
