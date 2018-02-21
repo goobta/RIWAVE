@@ -706,16 +706,25 @@ class Ui_MainWindow(object):
 
         self.currentBallotLabel.setText(_translate("MainWindow", "Current Ballot"))
         self.auditedBallotLabel.setText(_translate("MainWindow", "Audited Ballot #"))
-        self.auditedBallotValue.setText(_translate("MainWindow", "1"))
-
-        # === Ballot Candidate Selection
 
         self.actualValueLabel.setText(_translate("MainWindow", "Actual Value"))
-        self.actualValueComboBox.setCurrentText(_translate("MainWindow", "Select Candidate"))
         self.actualValueComboBox.setItemText(0, _translate("MainWindow", "Select Candidate"))
 
         self.reportedValueLabel.setText(_translate("MainWindow", "Reported Value"))
-        self.reportedValueComboBox.setCurrentText(_translate("MainWindow", "Select Candidate"))
+        self.reportedValueComboBox.setItemText(0, _translate("MainWindow", "Select Candidate"))
+
+        if self._current_ballot is not None:
+            self.auditedBallotValue.setText(_translate("MainWindow", self._current_ballot.get_audit_seq_num()))
+
+            self.actualValueComboBox.setCurrentText(
+                _translate("MainWindow", self._current_ballot.get_actual_value().get_name()))
+            self.reportedValueComboBox.setCurrentText(
+                _translate("MainWindow", self._current_ballot.get_reported_value().get_name()))
+        else:
+            self.auditedBallotValue.setText(_translate("MainWindow", ""))
+
+            self.actualValueComboBox.setCurrentText(_translate("MainWindow", "Select Candidate"))
+            self.reportedValueComboBox.setCurrentText(_translate("MainWindow", "Select Candidate"))
 
         for i, candidate in enumerate(self._election.get_contestants()):
             self.actualValueComboBox.setItemText(i + 1, _translate("MainWindow", candidate.get_name()))
