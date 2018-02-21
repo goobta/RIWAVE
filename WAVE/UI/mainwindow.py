@@ -528,10 +528,6 @@ class Ui_MainWindow(object):
             actualValueIndex = self.reportedValueComboBox.findText(str(actualValueName))  # findText(str(name))
             self.actualValueComboBox.setCurrentIndex(actualValueIndex)
 
-
-
-
-
     def getSpecialValueLabel(self):
         return self.specialValueLabel;
 
