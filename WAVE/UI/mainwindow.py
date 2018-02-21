@@ -469,7 +469,7 @@ class Ui_MainWindow(object):
         #self.auditTable.setItem(self.auditTable.currentRow(), self.auditTable.currentColumn(), QtWidgets.QTableWidgetItem("HI"))
         return self.auditTable.currentRow()
 
-    def retranslateUi_backup(self, MainWindow):
+    def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         item = self.auditTable.horizontalHeaderItem(0)
@@ -519,89 +519,92 @@ class Ui_MainWindow(object):
         self.auditedBallotValue.setText(_translate("MainWindow", "1"))
         self.currentBallotLabel.setText(_translate("MainWindow", "Current Ballot"))
 
-        def getSpecialValueLabel(self):
-            return self.specialValueLabel;
+    def getSpecialValueLabel(self):
+        return self.specialValueLabel;
 
-        def getAuditTable(self):
-            return self.auditTable;
+    def getAuditTable(self):
+        return self.auditTable;
 
-        def getCandidateGridLayout(self):
-            return self.gridLayout;
+    def getCandidateGridLayout(self):
+        return self.gridLayout;
 
-        def getCandidateNameReportedResultsVeriticalLayout(self):
-            return self.verticalLayout;
+    def getCandidateNameReportedResultsVeriticalLayout(self):
+        return self.verticalLayout;
 
-        def getCandidateValueReportedResultsVerticalLayout(self):
-            return self.gridLayout_2;
+    def getCandidateValueReportedResultsVerticalLayout(self):
+        return self.gridLayout_2;
 
-        def getAuditedBallotValue(self):
-            return self.auditedBallotValue;
+    def getAuditedBallotValue(self):
+        return self.auditedBallotValue;
 
-        def getBallotReportedValueName(self):
-            return self.reportedValueName;
+    def getBallotReportedValueName(self):
+        return self.reportedValueName;
 
-        def getBallotActualValueComboBox(self):
-            return self.actualValueComboBox;
+    def getBallotActualValueComboBox(self):
+        return self.actualValueComboBox;
 
-        def getBallotActualValueComboBoxIndex(self):
-            return self.actualValueComboBox.currentIndex();
+    def getBallotActualValueComboBoxIndex(self):
+        return self.actualValueComboBox.currentIndex();
 
-        def getEditElectionButton(self):
-            return self.pushButton;
+    def getEditElectionButton(self):
+        return self.pushButton;
 
-        def getJustSaveChangesButton(self):
-            return self.justSaveButton;
+    def getJustSaveChangesButton(self):
+        return self.justSaveButton;
 
-        def getSaveChangesAndContinueButton(self):
-            return self.saveAndNextButton;
+    def getSaveChangesAndContinueButton(self):
+        return self.saveAndNextButton;
 
-        def getRecomputeButton(self):
-            return self.recomputeButton;
+    def getRecomputeButton(self):
+        return self.recomputeButton;
 
-        def getExportResultsButton(self):
-            return self.exportButton;
+    def getExportResultsButton(self):
+        return self.exportButton;
 
-        def getToleranceLabel(self):
-            return self.toleranceLabel;
+    def getToleranceLabel(self):
+        return self.toleranceLabel;
 
-        def getToleranceValueLabel(self):
-            return self.toleranceValue;
+    def getToleranceValueLabel(self):
+        return self.toleranceValue;
 
-        def getSpecialValueLabel(self):
-            return self.specialValueLabel;
+    def getSpecialValueLabel(self):
+        return self.specialValueLabel;
 
-        def getSpecialValueValue(self):
-            return self.specialValueValue;
+    def getSpecialValueValue(self):
+        return self.specialValueValue;
 
-        def getAuditTypeComboBox(self):
-            return self.actualValueComboBox_2;
+    def getAuditTypeComboBox(self):
+        return self.actualValueComboBox_2;
 
-        def getAuditTypeComboBoxSelectedIndex(self):
-            return str(self.actualValueComboBox_2.currentIndex());
+    def getAuditTypeComboBoxSelectedIndex(self):
+        return str(self.actualValueComboBox_2.currentIndex());
 
-        def getStatusLabel(self):
-            return self.statusLabel;
+    def getStatusLabel(self):
+        return self.statusLabel;
 
-        def getTValueValueLabel(self):
-            return self.tValue;
+    def getTValueValueLabel(self):
+        return self.tValue;
 
-        def getTLabelLabel(self):
-            return self.tLabel;
+    def getTLabelLabel(self):
+        return self.tLabel;
 
-        def setAuditTableCell(self, row, col, value):
-            self.auditTable.setItem(row, col, QtWidgets.QTableWidgetItem(value))
+    def setTableCell(self, row, col, value):
+        self.auditTable.setItem(row, col, QtWidgets.QTableWidgetItem(value))
 
-        def setReportedResultsTableCell(self, row, col, value):
-            self.reportedResultsTable.setItem(row, col, QtWidgets.QTableWidgetItem(value))
-            
-        def setContestantTableCell(self, row, col, value):
-            self.contestantTable.setItem(row, col, QtWidgets.QTableWidgetItem(value))
+    def setAuditTableCell(self, row, col, value):
+        self.auditTable.setItem(row, col, QtWidgets.QTableWidgetItem(value))
 
-        def getCurrentlySelectedAuditTableRow(self, tableItem):
-            self.auditTable.setItem(1, 1, QtWidgets.QTableWidgetItem(value))
-            return tableItem.currentRow()
+    def setReportedResultsTableCell(self, row, col, value):
+        self.reportedResultsTable.setItem(row, col, QtWidgets.QTableWidgetItem(value))
 
-    def retranslateUi(self, MainWindow):
+    def setContestantTableCell(self, row, col, value):
+        self.contestantTable.setItem(row, col, QtWidgets.QTableWidgetItem(value))
+
+    def getCurrentlySelectedAuditTableRow(self, tableItem):
+        self.auditTable.setItem(1, 1, QtWidgets.QTableWidgetItem(tableItem))
+        return tableItem.currentRow()
+
+    def retranslateUi_backup(self, MainWindow):
         # Generate the Basic Window
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", 
@@ -629,16 +632,16 @@ class Ui_MainWindow(object):
         # Contestant Selection
         # TODO: Make this dynamic
 
-        self.contestantsSubSectionLabel.setText(_translate("MainWindow", "Contestants:"))
-        self.candidate0NameLabel.setText(_translate("MainWindow", "Trump"))
-        self.candidate1NameLabel.setText(_translate("MainWindow", "Clinton "))
-        self.candidate2NameLabel.setText(_translate("MainWindow", "Johnson"))
-        self.candidate3NameLabel.setText(_translate("MainWindow", "Stein"))
-        self.label_4.setText(_translate("MainWindow", "Reported Results"))
-        self.candidate0Percentage.setText(_translate("MainWindow", "25%"))
-        self.candidate1Percentage.setText(_translate("MainWindow", "25%"))
-        self.candidate2Percentage.setText(_translate("MainWindow", "25%"))
-        self.candidate3Percentage.setText(_translate("MainWindow", "25%"))
+        # self.contestantsSubSectionLabel.setText(_translate("MainWindow", "Contestants:"))
+        # self.candidate0NameLabel.setText(_translate("MainWindow", "Trump"))
+        # self.candidate1NameLabel.setText(_translate("MainWindow", "Clinton "))
+        # self.candidate2NameLabel.setText(_translate("MainWindow", "Johnson"))
+        # self.candidate3NameLabel.setText(_translate("MainWindow", "Stein"))
+        # self.label_4.setText(_translate("MainWindow", "Reported Results"))
+        # self.candidate0Percentage.setText(_translate("MainWindow", "25%"))
+        # self.candidate1Percentage.setText(_translate("MainWindow", "25%"))
+        # self.candidate2Percentage.setText(_translate("MainWindow", "25%"))
+        # self.candidate3Percentage.setText(_translate("MainWindow", "25%"))
 
         # Current Ballot
         # === Current Ballot Info
