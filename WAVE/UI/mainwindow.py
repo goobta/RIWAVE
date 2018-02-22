@@ -227,23 +227,27 @@ class Ui_MainWindow(object):
         self.label_5.setFont(font)
         self.label_5.setObjectName("label_5")
         self.gridLayout_2.addWidget(self.label_5, 9, 10, 1, 1)
-        self.tLabel = QtWidgets.QLabel(self.centralwidget)
+        #self.tLabel = QtWidgets.QLabel(self.centralwidget)
+        self.auditSpecialValuesTable = QtWidgets.QTableWidget(self.centralwidget)
         font = QtGui.QFont()
         font.setFamily("Calibri")
         font.setPointSize(48)
-        self.tLabel.setFont(font)
-        self.tLabel.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
-        self.tLabel.setIndent(0)
-        self.tLabel.setObjectName("tLabel")
-        self.gridLayout_2.addWidget(self.tLabel, 3, 10, 1, 1)
-        self.tValue = QtWidgets.QLabel(self.centralwidget)
+
+        fontSpecialTable = QtGui.QFont()
+        fontSpecialTable.setFamily("Calibri")
+        fontSpecialTable.setPointSize(12)
+        self.auditSpecialValuesTable.setFont(fontSpecialTable)
+        self.auditSpecialValuesTable.setShowGrid(False)
+        self.auditSpecialValuesTable.setRowCount(2)
+        self.auditSpecialValuesTable.setColumnCount(2)
+        self.auditSpecialValuesTable.setObjectName("auditSpecialValuesTable")
+        self.auditSpecialValuesTable.horizontalHeader().setVisible(False)
+        self.auditSpecialValuesTable.verticalHeader().setVisible(False)
+        self.gridLayout_2.addWidget(self.auditSpecialValuesTable, 11, 10, 3, 2)
+        self.auditSpecialValuesTable.raise_()
         font = QtGui.QFont()
         font.setFamily("Calibri")
         font.setPointSize(48)
-        self.tValue.setFont(font)
-        self.tValue.setIndent(0)
-        self.tValue.setObjectName("tValue")
-        self.gridLayout_2.addWidget(self.tValue, 3, 11, 1, 1)
         self.label_4 = QtWidgets.QLabel(self.centralwidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
@@ -412,8 +416,8 @@ class Ui_MainWindow(object):
         self.actualValueComboBox_2.raise_()
         self.auditDetailsLabel.raise_()
         self.line_3.raise_()
-        self.tLabel.raise_()
-        self.tValue.raise_()
+       # self.tLabel.raise_()
+        #self.tValue.raise_()
         self.statusLabel.raise_()
         self.contestantsSubSectionLabel.raise_()
         self.contestantTable.raise_()
@@ -431,6 +435,7 @@ class Ui_MainWindow(object):
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
+        self.auditSpecialValuesTable.raise_()
 
         self.retranslateUi(MainWindow)
         self.actualValueComboBox_2.setCurrentIndex(0)
@@ -444,6 +449,19 @@ class Ui_MainWindow(object):
         header.setSectionResizeMode(2, QtWidgets.QHeaderView.Stretch)
         header.setSectionResizeMode(3, QtWidgets.QHeaderView.Stretch)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+        headerAuditSpecialValuesTable = self.auditSpecialValuesTable.horizontalHeader()
+        headerAuditSpecialValuesTable.setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
+        headerAuditSpecialValuesTable.setSectionResizeMode(1, QtWidgets.QHeaderView.Stretch)
+
+
+        # headerAuditSpecialValuesTableVertical = self.auditSpecialValuesTable.verticalHeader()
+        # headerAuditSpecialValuesTableVertical.setSectionResizeMode(0, QtWidgets.QHeaderView.ResizeToContents)
+        # headerAuditSpecialValuesTableVertical.setSectionResizeMode(1, QtWidgets.QHeaderView.ResizeToContents)
+        #QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        #self.auditSpecialValuesTable.verticalScrollBar().setDisabled(True)
+
+       # self.auditSpecialValuesTable.resizeRowsToContents()
 
 
         headerContestantTable = self.contestantTable.horizontalHeader()
@@ -490,8 +508,8 @@ class Ui_MainWindow(object):
         self.actualValueComboBox_2.setItemText(0, _translate("MainWindow", "Risk-limiting"))
         self.actualValueComboBox_2.setItemText(1, _translate("MainWindow", "Bayesian"))
         self.label_5.setText(_translate("MainWindow", "Type:"))
-        self.tLabel.setText(_translate("MainWindow", "T= "))
-        self.tValue.setText(_translate("MainWindow", "8.99"))
+       # self.tLabel.setText(_translate("MainWindow", "T= "))
+        #self.tValue.setText(_translate("MainWindow", "8.99"))
         self.label_4.setText(_translate("MainWindow", "Reported Results"))
         self.contestantsSubSectionLabel.setText(_translate("MainWindow", "Contestants:"))
         self.justSaveButton.setText(_translate("MainWindow", "Save Changes"))
@@ -591,11 +609,11 @@ class Ui_MainWindow(object):
     def getStatusLabel(self):
         return self.statusLabel;
 
-    def getTValueValueLabel(self):
-        return self.tValue;
+    # def getTValueValueLabel(self):
+    #     return self.tValue;
 
-    def getTLabelLabel(self):
-        return self.tLabel;
+    # def getTLabelLabel(self):
+    #     return self.tLabel;
 
     def setTableCell(self, row, col, value):
         self.auditTable.setItem(row, col, QtWidgets.QTableWidgetItem(value))
@@ -612,6 +630,10 @@ class Ui_MainWindow(object):
     def getCurrentlySelectedAuditTableRow(self, tableItem):
         self.auditTable.setItem(1, 1, QtWidgets.QTableWidgetItem(tableItem))
         return tableItem.currentRow()
+
+    def setAuditSpecialValueTableCell(self,row,col, value):
+        self.auditTable.setItem(row, col, QtWidgets.QTableWidgetItem(value))
+
 
     def retranslateUi(self, MainWindow):
         # Generate the Basic Window
@@ -691,13 +713,13 @@ class Ui_MainWindow(object):
         # Audit Status
 
         if self._audit is not None:
-            self.tLabel.setText(_translate("MainWindow", self._audit.get_progress()))
+            #self.tLabel.setText(_translate("MainWindow", self._audit.get_progress()))
             self.actualValueComboBox_2.setCurrentText(_translate("MainWindow", self._audit.get_name()))
             print(self._audit.get_name())
 
         else:
             print("Not here")
-            self.tLabel.setText(_translate("MainWindow", "Please select \nan audit"))
+            #self.tLabel.setText(_translate("MainWindow", "Please select \nan audit"))
             self.actualValueComboBox_2.setCurrentText(_translate("MainWindow", "Select Audit"))
 
         # Audit selector drop down
