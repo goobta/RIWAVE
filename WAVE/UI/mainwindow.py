@@ -531,23 +531,6 @@ class Ui_MainWindow(object):
         self.auditedBallotValue.setText(_translate("MainWindow", "1"))
         self.currentBallotLabel.setText(_translate("MainWindow", "Current Ballot"))
 
-    def setCurrentBallotInformation(self, tableItem):
-        self.auditedBallotValue.setText(str(self.auditTable.currentRow()))
-        reportedValueName = self.auditTable.item(self.auditTable.currentRow(), 2).text()
-        index = self.reportedValueComboBox.findText(str(reportedValueName)) #findText(str(name))
-        self.reportedValueComboBox.setCurrentIndex(index)
-
-
-        actualValueName = self.auditTable.item(self.auditTable.currentRow(), 3).text()
-
-        if(not actualValueName):
-            print("VALUE IS NULL")
-        else:
-            actualValueIndex = self.reportedValueComboBox.findText(str(actualValueName))  # findText(str(name))
-            self.actualValueComboBox.setCurrentIndex(actualValueIndex)
-
-        # TODO: Set current ballot
-
     def getSpecialValueLabel(self):
         return self.specialValueLabel;
 
@@ -645,6 +628,24 @@ class Ui_MainWindow(object):
 
         return audit_index
 
+    def setCurrentBallotInformation(self, tableItem):
+        self._current_ballot = filter(lambda b: b.get_audit_seq_num() == self.auditTable.currentRow(),
+                                      self._election.get_ballots())
+
+        self.auditedBallotValue.setText(str(self.auditTable.currentRow()))
+
+        reportedValueName = self.auditTable.item(self.auditTable.currentRow(), 2).text()
+        index = self.reportedValueComboBox.findText(str(reportedValueName)) #findText(str(name))
+        self.reportedValueComboBox.setCurrentIndex(index)
+
+        actualValueName = self.auditTable.item(self.auditTable.currentRow(), 3).text()
+
+        if(not actualValueName):
+            print("VALUE IS NULL")
+        else:
+            actualValueIndex = self.reportedValueComboBox.findText(str(actualValueName))  # findText(str(name))
+            self.actualValueComboBox.setCurrentIndex(actualValueIndex)
+
     def retranslateUi(self, MainWindow):
         # Generate the Basic Window
         _translate = QtCore.QCoreApplication.translate
@@ -732,6 +733,7 @@ class Ui_MainWindow(object):
             # Populate audit parameters
             for i, param in enumerate(self._audit.get_parameters()):
                 self.auditSpecialValuesTable.insertRow(i)
+
                 self.setAuditSpecialValueTableCell(i, 0, param[0])
                 self.setAuditSpecialValueTableCell(i, 1, param[1])
 
@@ -739,7 +741,7 @@ class Ui_MainWindow(object):
             # Set the audit selector drop down to "Select Audit"
             self.actualValueComboBox_2.setCurrentIndex(0)
 
-            # Reset audi parameters
+            # Reset audit parameters
             for i in range(self.auditSpecialValuesTable.rowCount() - 1, 0):
                 self.auditSpecialValuesTable.removeRow(i)
 
