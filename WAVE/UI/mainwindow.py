@@ -647,7 +647,23 @@ class Ui_MainWindow(object):
             self.actualValueComboBox.setCurrentIndex(actualValueIndex)
 
     def save_ballot(self):
-        pass
+        reported_value_text = self.reportedValueComboBox.currentText()
+        reported_value = filter(lambda x: x.get_name() == reported_value_text, self._election.get_contestants())
+
+        actual_value_text = self.actualValueComboBox.currentText()
+        actual_value = filter(lambda x: x.get_name() == actual_value_text, self._election.get_contestants())
+
+        self._current_ballot.set_reported_value(reported_value)
+        self._current_ballot.set_actual_value(actual_value)
+
+        self.reload_audit_table()
+        self._audit.recompute(self._election.get_ballots(), self._election.get_reported_results())
+
+    def save_and_add_ballot(self):
+        if int(self.auditedBallotValue.text()) >= self.auditTable.rowCount():
+            pass
+        else:
+            pass
 
     def reload_audit_table(self):
         _translate = QtCore.QCoreApplication.translate
