@@ -640,11 +640,34 @@ class Ui_MainWindow(object):
 
         actualValueName = self.auditTable.item(self.auditTable.currentRow(), 3).text()
 
-        if(not actualValueName):
+        if not actualValueName:
             print("VALUE IS NULL")
         else:
             actualValueIndex = self.reportedValueComboBox.findText(str(actualValueName))  # findText(str(name))
             self.actualValueComboBox.setCurrentIndex(actualValueIndex)
+
+    def save_ballot(self):
+        pass
+
+    def reload_audit_table(self):
+        _translate = QtCore.QCoreApplication.translate
+
+        # Table Setup
+        self.auditTable.horizontalHeaderItem(Ui_MainWindow.TableNum.AUDIT_NUM).setText(
+            _translate("MainWindow", "Audit #"))
+        self.auditTable.horizontalHeaderItem(Ui_MainWindow.TableNum.BALLOT_NUM).setText(
+            _translate("MainWindow", "Actual Ballot #"))
+        self.auditTable.horizontalHeaderItem(Ui_MainWindow.TableNum.REPORTED_VALUE).setText(
+            _translate("MainWindow", "Reported Value"))
+        self.auditTable.horizontalHeaderItem(Ui_MainWindow.TableNum.ACTUAL_VALUE).setText(
+            _translate("MainWindow", "Actual Value"))
+
+        for i, ballot in enumerate(sorted(self._election.get_ballots(), key=lambda x: x.get_audit_seq_num())):
+            self.setTableCell(i, Ui_MainWindow.TableNum.AUDIT_NUM, str(i))
+            self.setTableCell(i, Ui_MainWindow.TableNum.BALLOT_NUM, str(ballot.get_physical_ballot_num()))
+            self.setTableCell(i, Ui_MainWindow.TableNum.REPORTED_VALUE, ballot.get_reported_value().get_name())
+            self.setTableCell(i, Ui_MainWindow.TableNum.ACTUAL_VALUE, ballot.get_actual_value().get_name())
+
 
     def retranslateUi(self, MainWindow):
         # Generate the Basic Window
@@ -653,17 +676,8 @@ class Ui_MainWindow(object):
                                              "MainWindow"))
         self.mainPageSectionLabel.setText(_translate("MainWindow", "RI WAVE - AUDIT"))
 
-        # Table Setup
-        self.auditTable.horizontalHeaderItem(Ui_MainWindow.TableNum.AUDIT_NUM).setText(_translate("MainWindow", "Audit #"))
-        self.auditTable.horizontalHeaderItem(Ui_MainWindow.TableNum.BALLOT_NUM).setText(_translate("MainWindow", "Actual Ballot #"))
-        self.auditTable.horizontalHeaderItem(Ui_MainWindow.TableNum.REPORTED_VALUE).setText(_translate("MainWindow", "Reported Value"))
-        self.auditTable.horizontalHeaderItem(Ui_MainWindow.TableNum.ACTUAL_VALUE).setText(_translate("MainWindow", "Actual Value"))
-
-        for i, ballot in enumerate(sorted(self._election.get_ballots(), key=lambda x: x.get_audit_seq_num())):
-            self.setTableCell(i, Ui_MainWindow.TableNum.AUDIT_NUM, str(i))
-            self.setTableCell(i, Ui_MainWindow.TableNum.BALLOT_NUM, str(ballot.get_physical_ballot_num()))
-            self.setTableCell(i, Ui_MainWindow.TableNum.REPORTED_VALUE, ballot.get_reported_value().get_name())
-            self.setTableCell(i, Ui_MainWindow.TableNum.ACTUAL_VALUE, ballot.get_actual_value().get_name())
+        # Setup audit table
+        self.reload_audit_table()
 
         # Edit Election
         self.pushButton.setText(_translate("MainWindow", "Edit Election"))
