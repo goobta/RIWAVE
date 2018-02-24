@@ -49,7 +49,7 @@ class RLA(audit.Audit):
         return RLA.name
 
     def get_parameters(self):
-        param = [["Tolerance", str(self._tolerance)]]
+        param = [["Tolerance", "%.1f" % (self._tolerance * 100)]]
         
         return param
 

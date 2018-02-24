@@ -238,7 +238,7 @@ class Ui_MainWindow(object):
         fontSpecialTable.setPointSize(12)
         self.auditSpecialValuesTable.setFont(fontSpecialTable)
         self.auditSpecialValuesTable.setShowGrid(False)
-        self.auditSpecialValuesTable.setRowCount(2)
+        self.auditSpecialValuesTable.setRowCount(0)
         self.auditSpecialValuesTable.setColumnCount(2)
         self.auditSpecialValuesTable.setObjectName("auditSpecialValuesTable")
         self.auditSpecialValuesTable.horizontalHeader().setVisible(False)
@@ -634,7 +634,7 @@ class Ui_MainWindow(object):
         return tableItem.currentRow()
 
     def setAuditSpecialValueTableCell(self,row,col, value):
-        self.auditTable.setItem(row, col, QtWidgets.QTableWidgetItem(value))
+        self.auditSpecialValuesTable.setItem(row, col, QtWidgets.QTableWidgetItem(value))
 
     def getCurrentAuditIndex(self, current_audit):
         audit_index = 0
