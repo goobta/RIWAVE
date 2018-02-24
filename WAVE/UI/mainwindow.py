@@ -483,7 +483,7 @@ class Ui_MainWindow(object):
 
 
 
-    def retranslateUi(self, MainWindow):
+    def retranslateUi_backup(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         item = self.auditTable.horizontalHeaderItem(0)
@@ -634,7 +634,6 @@ class Ui_MainWindow(object):
     def setAuditSpecialValueTableCell(self,row,col, value):
         self.auditTable.setItem(row, col, QtWidgets.QTableWidgetItem(value))
 
-
     def retranslateUi(self, MainWindow):
         # Generate the Basic Window
         _translate = QtCore.QCoreApplication.translate
@@ -713,14 +712,17 @@ class Ui_MainWindow(object):
         # Audit Status
 
         if self._audit is not None:
-            #self.tLabel.setText(_translate("MainWindow", self._audit.get_progress()))
+            # self.tLabel.setText(_translate("MainWindow", self._audit.get_progress()))
             self.actualValueComboBox_2.setCurrentText(_translate("MainWindow", self._audit.get_name()))
             print(self._audit.get_name())
 
         else:
             print("Not here")
-            #self.tLabel.setText(_translate("MainWindow", "Please select \nan audit"))
+            # self.tLabel.setText(_translate("MainWindow", "Please select \nan audit"))
             self.actualValueComboBox_2.setCurrentText(_translate("MainWindow", "Select Audit"))
+
+        # Audit details
+        self.auditDetailsLabel.setText(_translate("MainWindow", "Audit Details"))
 
         # Audit selector drop down
         for i, current_audit in enumerate(self._audits):
