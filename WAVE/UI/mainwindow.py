@@ -438,7 +438,6 @@ class Ui_MainWindow(object):
         self.auditSpecialValuesTable.raise_()
 
         self.retranslateUi(MainWindow)
-        self.actualValueComboBox_2.setCurrentIndex(0)
         self.reportedValueComboBox.setCurrentIndex(0)
         self.actualValueComboBox.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -532,19 +531,22 @@ class Ui_MainWindow(object):
         self.auditedBallotValue.setText(_translate("MainWindow", "1"))
         self.currentBallotLabel.setText(_translate("MainWindow", "Current Ballot"))
 
-    def setCurrentBallotInformation(self,tableItem):
+    def setCurrentBallotInformation(self, tableItem):
         self.auditedBallotValue.setText(str(self.auditTable.currentRow()))
         reportedValueName = self.auditTable.item(self.auditTable.currentRow(), 2).text()
-        index = self.reportedValueComboBox.findText(str(reportedValueName))#findText(str(name))
+        index = self.reportedValueComboBox.findText(str(reportedValueName)) #findText(str(name))
         self.reportedValueComboBox.setCurrentIndex(index)
 
 
         actualValueName = self.auditTable.item(self.auditTable.currentRow(), 3).text()
+
         if(not actualValueName):
             print("VALUE IS NULL")
         else:
             actualValueIndex = self.reportedValueComboBox.findText(str(actualValueName))  # findText(str(name))
             self.actualValueComboBox.setCurrentIndex(actualValueIndex)
+
+        # TODO: Set current ballot
 
     def getSpecialValueLabel(self):
         return self.specialValueLabel;
@@ -634,6 +636,15 @@ class Ui_MainWindow(object):
     def setAuditSpecialValueTableCell(self,row,col, value):
         self.auditTable.setItem(row, col, QtWidgets.QTableWidgetItem(value))
 
+    def getCurrentAuditIndex(self, current_audit):
+        audit_index = 0
+
+        for i, audit in enumerate(self._audits):
+            if isinstance(current_audit, audit):
+                audit_index = i
+
+        return audit_index
+
     def retranslateUi(self, MainWindow):
         # Generate the Basic Window
         _translate = QtCore.QCoreApplication.translate
@@ -676,7 +687,7 @@ class Ui_MainWindow(object):
 
         # Current Ballot
         # === Current Ballot Info
-       # self.auditedBallotValue.setText(_translate("MainWindow", ""))
+        self.auditedBallotValue.setText(_translate("MainWindow", ""))
 
         self.currentBallotLabel.setText(_translate("MainWindow", "Current Ballot"))
         self.auditedBallotLabel.setText(_translate("MainWindow", "Audited Ballot #"))
@@ -710,24 +721,31 @@ class Ui_MainWindow(object):
         self.saveAndNextButton.setText(_translate("MainWindow", "Save and Continue"))
 
         # Audit Status
+        # Audit selector drop down
+        for i, current_audit in enumerate(self._audits):
+            self.actualValueComboBox_2.addItem(current_audit.get_name())
 
         if self._audit is not None:
             # self.tLabel.setText(_translate("MainWindow", self._audit.get_progress()))
-            self.actualValueComboBox_2.setCurrentText(_translate("MainWindow", self._audit.get_name()))
+            self.actualValueComboBox_2.setCurrentIndex(self.getCurrentAuditIndex(self._audit))
             print(self._audit.get_name())
 
         else:
-            print("Not here")
             # self.tLabel.setText(_translate("MainWindow", "Please select \nan audit"))
-            self.actualValueComboBox_2.setCurrentText(_translate("MainWindow", "Select Audit"))
+            self.actualValueComboBox_2.setCurrentText(_translate("MainWindow", "dab Audit"))
 
         # Audit details
         self.auditDetailsLabel.setText(_translate("MainWindow", "Audit Details"))
 
-        # Audit selector drop down
-        for i, current_audit in enumerate(self._audits):
-            print(current_audit.get_name())
-            self.actualValueComboBox_2.addItem(current_audit.get_name())
+        # Audit parameters
+        if self._audit is not None:
+            for i, param in enumerate(self._audit.get_parameters()):
+                self.auditSpecialValuesTable.insertRow(i)
+                self.setAuditSpecialValueTableCell(i, 0, param[0])
+                self.setAuditSpecialValueTableCell(i, 1, param[1])
+        else:
+            for i in range(self.auditSpecialValuesTable.rowCount() - 1, 0):
+                self.auditSpecialValuesTable.removeRow(i)
 
         # Audit option buttons
         self.recomputeButton.setText(_translate("MainWindow", "Recompute"))

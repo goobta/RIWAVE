@@ -13,5 +13,4 @@ def get_audits():
         if inspect.isclass(obj):
             audits.append(obj)
 
-    print(audits)
     return audits

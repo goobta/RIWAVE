@@ -49,7 +49,7 @@ class RLA(audit.Audit):
         return RLA.name
 
     def get_parameters(self):
-        param = ["Tolerance"]
+        param = [["Tolerance", str(self._tolerance)]]
         
         return param
 
@@ -71,7 +71,7 @@ class RLA(audit.Audit):
                 self._cached_results[i][1] += 1
                 break
 
-        print(str(self._T) + " " + ballot.get_reported_value().get_name() + " " + ballot.get_actual_value().get_name())
+        # print(str(self._T) + " " + ballot.get_reported_value().get_name() + " " + ballot.get_actual_value().get_name())
 
         self._refresh_status()
 
