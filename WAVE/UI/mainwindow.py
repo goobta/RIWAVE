@@ -10,6 +10,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QTableWidget,QTableWidgetItem
 import enum
 import audit
+import election
 
 class Ui_MainWindow(object):
     class TableNum(enum.IntEnum):
@@ -661,9 +662,33 @@ class Ui_MainWindow(object):
 
     def save_and_add_ballot(self):
         if int(self.auditedBallotValue.text()) >= self.auditTable.rowCount():
-            pass
+            audit_seq = int(self.auditedBallotValue.text())
+
+            # TODO: Error checking for a non-selected candidate
+            reported_value_text = self.reportedValueComboBox.currentText()
+            reported_value = filter(lambda x: x.get_name() == reported_value_text, self._election.get_contestants())
+
+            actual_value_text = self.actualValueComboBox.currentText()
+            actual_value = filter(lambda x: x.get_name() == actual_value_text, self._election.get_contestants())
+
+            # TODO: FIX THIS JANK
+            physical_seq = -1
+
+            ballot = election.Ballot()
+            ballot.set_audit_seq_num(audit_seq)
+            ballot.set_physical_ballot_num(physical_seq)
+            ballot.set_reported_value(reported_value)
+            ballot.set_actual_value(actual_value)
+
+            self._election.add_ballot(ballot)
+            self.reload_audit_table()
+            self._audit.recompute(self._election.get_ballots(), self._election.get_reported_results())
         else:
-            pass
+            self.save_ballot()
+
+        self.auditedBallotValue.setText(self.auditTable.rowCount())
+        self.reportedValueComboBox.setCurrentIndex(0)
+        self.actualValueComboBox.setCurrentIndex(0)
 
     def reload_audit_table(self):
         _translate = QtCore.QCoreApplication.translate
