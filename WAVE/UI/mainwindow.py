@@ -686,7 +686,7 @@ class Ui_MainWindow(object):
         else:
             self.save_ballot()
 
-        self.auditedBallotValue.setText(self.auditTable.rowCount())
+        self.auditedBallotValue.(str(self.auditTable.rowCount()))
         self.reportedValueComboBox.setCurrentIndex(0)
         self.actualValueComboBox.setCurrentIndex(0)
 
@@ -709,6 +709,14 @@ class Ui_MainWindow(object):
             self.setTableCell(i, Ui_MainWindow.TableNum.REPORTED_VALUE, ballot.get_reported_value().get_name())
             self.setTableCell(i, Ui_MainWindow.TableNum.ACTUAL_VALUE, ballot.get_actual_value().get_name())
 
+    def recompute_audit(self):
+        param = []
+
+        for i in range(self.auditSpecialValuesTable.rowCount()):
+            param.append(self.auditSpecialValuesTable.item(i, 1).text())
+
+        self._audit.set_parameters(param)
+        self._audit.recompute(self._election.get_ballots(), self._election.get_reported_results())
 
     def retranslateUi(self, MainWindow):
         # Generate the Basic Window
