@@ -721,35 +721,35 @@ class Ui_MainWindow(object):
         self.saveAndNextButton.setText(_translate("MainWindow", "Save and Continue"))
 
         # Audit Status
-        # Audit selector drop down
+        # Populate audit selector dropdown
         for i, current_audit in enumerate(self._audits):
             self.actualValueComboBox_2.addItem(current_audit.get_name())
 
         if self._audit is not None:
-            # self.tLabel.setText(_translate("MainWindow", self._audit.get_progress()))
+            # Set the audit selector drop down to the current audit
             self.actualValueComboBox_2.setCurrentIndex(self.getCurrentAuditIndex(self._audit))
-            print(self._audit.get_name())
 
-        else:
-            # self.tLabel.setText(_translate("MainWindow", "Please select \nan audit"))
-            self.actualValueComboBox_2.setCurrentIndex(0)
-
-        # Audit details
-        self.auditDetailsLabel.setText(_translate("MainWindow", "Audit Details"))
-
-        # Audit parameters
-        if self._audit is not None:
+            # Populate audit parameters
             for i, param in enumerate(self._audit.get_parameters()):
                 self.auditSpecialValuesTable.insertRow(i)
                 self.setAuditSpecialValueTableCell(i, 0, param[0])
                 self.setAuditSpecialValueTableCell(i, 1, param[1])
+
         else:
+            # Set the audit selector drop down to "Select Audit"
+            self.actualValueComboBox_2.setCurrentIndex(0)
+
+            # Reset audi parameters
             for i in range(self.auditSpecialValuesTable.rowCount() - 1, 0):
                 self.auditSpecialValuesTable.removeRow(i)
+
+        # Audit details
+        self.auditDetailsLabel.setText(_translate("MainWindow", "Audit Details"))
 
         # Audit option buttons
         self.recomputeButton.setText(_translate("MainWindow", "Recompute"))
         self.exportButton.setText(_translate("MainWindow", "Export Results"))
+
 
 if __name__ == "__main__":
     import sys
