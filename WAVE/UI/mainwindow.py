@@ -732,7 +732,7 @@ class Ui_MainWindow(object):
 
         else:
             # self.tLabel.setText(_translate("MainWindow", "Please select \nan audit"))
-            self.actualValueComboBox_2.setCurrentText(_translate("MainWindow", "dab Audit"))
+            self.actualValueComboBox_2.setCurrentIndex(0)
 
         # Audit details
         self.auditDetailsLabel.setText(_translate("MainWindow", "Audit Details"))
