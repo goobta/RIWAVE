@@ -481,6 +481,9 @@ class Ui_MainWindow(object):
 
         self.auditTable.clicked.connect(self.setCurrentBallotInformation)
 
+        self.auditTable.clicked.connect(self.setCurrentBallotInformation)
+        self.recomputeButton.clicked.connect(self.recompute_audit())
+
 
 
     def retranslateUi_backup(self, MainWindow):
@@ -686,7 +689,7 @@ class Ui_MainWindow(object):
         else:
             self.save_ballot()
 
-        self.auditedBallotValue.(str(self.auditTable.rowCount()))
+        self.auditedBallotValue.setText(str(self.auditTable.rowCount()))
         self.reportedValueComboBox.setCurrentIndex(0)
         self.actualValueComboBox.setCurrentIndex(0)
 
