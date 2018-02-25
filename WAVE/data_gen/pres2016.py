@@ -56,7 +56,6 @@ class Pres2016:
                 ballot = election.Ballot()
 
                 ballot.set_physical_ballot_num(current_count)
-                ballot.set_audit_seq_num(current_count)
                 ballot.set_reported_value(result.get_contestant())
 
                 if i == 0 and j < error * result.get_percentage() * count:
@@ -69,6 +68,9 @@ class Pres2016:
         shuffle(ballots)
         shuffle(ballots)
         shuffle(ballots)
+
+        for i, ballot in enumerate(ballots):
+            ballot.set_audit_seq_num(i)
 
         self._ballots = ballots
         self._election.set_ballots(ballots)
