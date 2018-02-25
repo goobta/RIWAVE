@@ -481,8 +481,9 @@ class Ui_MainWindow(object):
 
         self.auditTable.clicked.connect(self.setCurrentBallotInformation)
 
-        self.auditTable.clicked.connect(self.setCurrentBallotInformation)
         self.recomputeButton.clicked.connect(self.recompute_audit)
+        self.justSaveButton.clicked.connect(self.save_ballot)
+        self.saveAndNextButton.clicked.connect(self.save_and_add_ballot)
 
 
 
@@ -652,6 +653,8 @@ class Ui_MainWindow(object):
 
     def save_ballot(self):
         reported_value_text = self.reportedValueComboBox.currentText()
+
+        # TODO: Fix below line because it causes an error
         reported_value = filter(lambda x: x.get_name() == reported_value_text, self._election.get_contestants())
 
         actual_value_text = self.actualValueComboBox.currentText()
