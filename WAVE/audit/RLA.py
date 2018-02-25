@@ -55,7 +55,7 @@ class RLA(audit.Audit):
 
     def set_parameters(self, param):
         print(param)
-        self._tolerance = float(param[0])
+        self._tolerance = float(param[0]) / 100
         print(self._tolerance)
 
     def compute(self, ballot):

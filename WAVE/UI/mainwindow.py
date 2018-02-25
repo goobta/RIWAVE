@@ -482,7 +482,7 @@ class Ui_MainWindow(object):
         self.auditTable.clicked.connect(self.setCurrentBallotInformation)
 
         self.auditTable.clicked.connect(self.setCurrentBallotInformation)
-        self.recomputeButton.clicked.connect(self.recompute_audit())
+        self.recomputeButton.clicked.connect(self.recompute_audit)
 
 
 
