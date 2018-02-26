@@ -684,9 +684,12 @@ class Ui_MainWindow(object):
             return
 
         reported_value_text = self.reportedValueComboBox.currentText()
-        reported_value = list(filter(lambda x: x.get_name() == reported_value_text, self._election.get_contestants()))[0]
-
         actual_value_text = self.actualValueComboBox.currentText()
+
+        if reported_value_text == "Select Candidate" or actual_value_text == "Select Candidate":
+            return
+
+        reported_value = list(filter(lambda x: x.get_name() == reported_value_text, self._election.get_contestants()))[0]
         actual_value = list(filter(lambda x: x.get_name() == actual_value_text, self._election.get_contestants()))[0]
 
         self._current_ballot.set_reported_value(reported_value)
@@ -696,19 +699,25 @@ class Ui_MainWindow(object):
         self._audit.recompute(self._election.get_ballots(), self._election.get_reported_results())
 
     def save_and_add_ballot(self):
-        largest_audit_num = sorted(self._election.get_ballots(), key=lambda x: x.get_audit_seq_num())[-1].get_audit_seq_num()
-
         if not self.auditedBallotValue.text().isdigit():
             pass
         elif int(self.auditedBallotValue.text()) >= self.auditTable.rowCount():
             audit_seq = int(self.auditedBallotValue.text())
 
-            # TODO: Error checking for a non-selected candidate
             reported_value_text = self.reportedValueComboBox.currentText()
+            actual_value_text = self.actualValueComboBox.currentText()
+
+            print("Reported Value Text")
+            print(reported_value_text)
+            print("Actual Value Text")
+            print(actual_value_text)
+
+            if reported_value_text == "Select Candidate" or actual_value_text == "Select Candidate":
+                return
+
             reported_value = list(filter(lambda x: x.get_name() == reported_value_text,
                                          self._election.get_contestants()))[0]
 
-            actual_value_text = self.actualValueComboBox.currentText()
             actual_value = list(filter(lambda x: x.get_name() == actual_value_text,
                                        self._election.get_contestants()))[0]
 
@@ -850,8 +859,7 @@ class Ui_MainWindow(object):
             self.actualValueComboBox_2.setCurrentIndex(0)
 
             # Reset audit parameters
-            for i in range(self.auditSpecialValuesTable.rowCount() - 1, 0):
-                self.auditSpecialValuesTable.removeRow(i)
+            self.auditSpecialValuesTable.setRowCount(0)
 
         # Audit details
         self.auditDetailsLabel.setText(_translate("MainWindow", "Audit Details"))
