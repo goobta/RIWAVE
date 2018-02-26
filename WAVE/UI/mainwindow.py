@@ -622,9 +622,6 @@ class Ui_MainWindow(object):
     def setProgressLabel(self, newValue):
         self.statusLabel.setText(newValue)
 
-
-
-
     # def getTValueValueLabel(self):
     #     return self.tValue;
 
@@ -695,6 +692,7 @@ class Ui_MainWindow(object):
 
         self.reload_audit_table()
         self._audit.recompute(self._election.get_ballots(), self._election.get_reported_results())
+        self.refresh_audit_status()
 
     def save_and_add_ballot(self):
         if not self.auditedBallotValue.text().isdigit():
@@ -731,6 +729,7 @@ class Ui_MainWindow(object):
             self._election.add_ballot(ballot)
             self.reload_audit_table()
             self._audit.recompute(self._election.get_ballots(), self._election.get_reported_results())
+            self.refresh_audit_status()
         else:
             self.save_ballot()
 
@@ -769,6 +768,14 @@ class Ui_MainWindow(object):
 
         self._audit.set_parameters(param)
         self._audit.recompute(self._election.get_ballots(), self._election.get_reported_results())
+
+    def refresh_audit_status(self):
+        if self._audit is not None:
+            self.setProgressValueLabel(self._audit.get_progress())
+            self.setProgressLabel(self._audit.get_status())
+        else:
+            self.setProgressValueLabel("Please Select")
+            self.setProgressLabel("an audit")
 
     def retranslateUi(self, MainWindow):
         # Generate the Basic Window
@@ -859,13 +866,16 @@ class Ui_MainWindow(object):
             # Reset audit parameters
             self.auditSpecialValuesTable.setRowCount(0)
 
+        # Audit status
+        self.refresh_audit_status()
+
         # Audit details
         self.auditDetailsLabel.setText(_translate("MainWindow", "Audit Details"))
 
         # Audit option buttons
-        self.tLabel.setText(_translate("MainWindow", "Progress Value: "))
-        self.statusLabel.setText(_translate("MainWindow", "Status: Keep Going"))
-        self.tValue.setText(_translate("MainWindow", "0.0"))
+        # self.tLabel.setText(_translate("MainWindow", "Progress Value: "))
+        # self.statusLabel.setText(_translate("MainWindow", "Status: Keep Going"))
+        # self.tValue.setText(_translate("MainWindow", "0.0"))
         self.recomputeButton.setText(_translate("MainWindow", "Recompute"))
         self.exportButton.setText(_translate("MainWindow", "Export Results"))
 
