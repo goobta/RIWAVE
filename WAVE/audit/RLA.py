@@ -39,23 +39,22 @@ class RLA(audit.Audit):
             self._cached_results.append([result.get_contestant(), 0])
 
     def get_progress(self):
-        return "T = " + str(self._T)
+        return "T = %.4f" % self._T
 
     def get_status(self):
         return RLA.status_codes[self._status]
 
-    def get_name(self):
+    @staticmethod
+    def get_name():
         return RLA.name
 
     def get_parameters(self):
-        param = ["Tolerance"]
+        param = [["Tolerance", "%.1f" % (self._tolerance * 100)]]
         
         return param
 
     def set_parameters(self, param):
-        print(param)
-        self._tolerance = param[0]
-        print(self._tolerance)
+        self._tolerance = float(param[0]) / 100
 
     def compute(self, ballot):
         ballot_vote = ballot.get_actual_value()
@@ -70,7 +69,7 @@ class RLA(audit.Audit):
                 self._cached_results[i][1] += 1
                 break
 
-        print(str(self._T) + " " + ballot.get_reported_value().get_name() + " " + ballot.get_actual_value().get_name())
+        # print(str(self._T) + " " + ballot.get_reported_value().get_name() + " " + ballot.get_actual_value().get_name())
 
         self._refresh_status()
 
@@ -84,13 +83,6 @@ class RLA(audit.Audit):
 
     def recompute(self, ballots, results):
         self.init(results)
-
-        print("settings")
-        print(self._s)
-        print(self._tolerance)
-        print(self._margin)
-        print(self._margin / .5)
-        print(self._winner.get_name())
 
         for ballot in ballots:
             self.compute(ballot)
