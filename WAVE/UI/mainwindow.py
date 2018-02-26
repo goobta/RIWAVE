@@ -485,8 +485,6 @@ class Ui_MainWindow(object):
         self.justSaveButton.clicked.connect(self.save_ballot)
         self.saveAndNextButton.clicked.connect(self.save_and_add_ballot)
 
-
-
     def retranslateUi_backup(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
