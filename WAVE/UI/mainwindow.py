@@ -228,11 +228,27 @@ class Ui_MainWindow(object):
         self.label_5.setFont(font)
         self.label_5.setObjectName("label_5")
         self.gridLayout_2.addWidget(self.label_5, 9, 10, 1, 1)
-        #self.tLabel = QtWidgets.QLabel(self.centralwidget)
+        self.tLabel = QtWidgets.QLabel(self.centralwidget)
+        font = QtGui.QFont()
+        font.setFamily("Calibri")
+        font.setPointSize(48)
+        self.tLabel.setFont(font)
+        self.tLabel.setAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
+        self.tLabel.setIndent(0)
+        self.tLabel.setObjectName("tLabel")
+        self.gridLayout_2.addWidget(self.tLabel, 3, 10, 1, 1)
         self.auditSpecialValuesTable = QtWidgets.QTableWidget(self.centralwidget)
         font = QtGui.QFont()
         font.setFamily("Calibri")
         font.setPointSize(48)
+        self.tValue = QtWidgets.QLabel(self.centralwidget)
+        font = QtGui.QFont()
+        font.setFamily("Calibri")
+        font.setPointSize(48)
+        self.tValue.setFont(font)
+        self.tValue.setIndent(0)
+        self.tValue.setObjectName("tValue")
+        self.gridLayout_2.addWidget(self.tValue, 3, 11, 1, 1)
 
         fontSpecialTable = QtGui.QFont()
         fontSpecialTable.setFamily("Calibri")
@@ -417,8 +433,8 @@ class Ui_MainWindow(object):
         self.actualValueComboBox_2.raise_()
         self.auditDetailsLabel.raise_()
         self.line_3.raise_()
-       # self.tLabel.raise_()
-        #self.tValue.raise_()
+        self.tLabel.raise_()
+        self.tValue.raise_()
         self.statusLabel.raise_()
         self.contestantsSubSectionLabel.raise_()
         self.contestantTable.raise_()
@@ -512,8 +528,8 @@ class Ui_MainWindow(object):
         self.actualValueComboBox_2.setItemText(0, _translate("MainWindow", "Risk-limiting"))
         self.actualValueComboBox_2.setItemText(1, _translate("MainWindow", "Bayesian"))
         self.label_5.setText(_translate("MainWindow", "Type:"))
-       # self.tLabel.setText(_translate("MainWindow", "T= "))
-        #self.tValue.setText(_translate("MainWindow", "8.99"))
+        self.tLabel.setText(_translate("MainWindow", "T= "))
+        self.tValue.setText(_translate("MainWindow", "8.99"))
         self.label_4.setText(_translate("MainWindow", "Reported Results"))
         self.contestantsSubSectionLabel.setText(_translate("MainWindow", "Contestants:"))
         self.justSaveButton.setText(_translate("MainWindow", "Save Changes"))
@@ -598,6 +614,18 @@ class Ui_MainWindow(object):
 
     def getStatusLabel(self):
         return self.statusLabel;
+
+    def setProgressValueLabel(self, newValue):
+        self.tLabel.setText(newValue)
+
+    def setProgressValue(self,newValue):
+        self.tValue.setText(newValue)
+
+    def setProgressLabel(self, newValue):
+        self.statusLabel.setText(newValue)
+
+
+
 
     # def getTValueValueLabel(self):
     #     return self.tValue;
@@ -829,8 +857,12 @@ class Ui_MainWindow(object):
         self.auditDetailsLabel.setText(_translate("MainWindow", "Audit Details"))
 
         # Audit option buttons
+        self.tLabel.setText(_translate("MainWindow", "Progress Value: "))
+        self.statusLabel.setText(_translate("MainWindow", "Status: Keep Going"))
+        self.tValue.setText(_translate("MainWindow", "0.0"))
         self.recomputeButton.setText(_translate("MainWindow", "Recompute"))
         self.exportButton.setText(_translate("MainWindow", "Export Results"))
+
 
 
 if __name__ == "__main__":
