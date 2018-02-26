@@ -80,7 +80,7 @@ class Ui_MainWindow(object):
         self.auditTable.setIconSize(QtCore.QSize(0, 0))
         self.auditTable.setGridStyle(QtCore.Qt.SolidLine)
         self.auditTable.setWordWrap(True)
-        self.auditTable.setRowCount(100)
+        self.auditTable.setRowCount(0)
         self.auditTable.setColumnCount(4)
         self.auditTable.setObjectName("auditTable")
         item = QtWidgets.QTableWidgetItem()
@@ -634,8 +634,8 @@ class Ui_MainWindow(object):
         return audit_index
 
     def setCurrentBallotInformation(self, tableItem):
-        self._current_ballot = filter(lambda b: b.get_audit_seq_num() == self.auditTable.currentRow(),
-                                      self._election.get_ballots())
+        self._current_ballot = list(filter(lambda b: b.get_audit_seq_num() == self.auditTable.currentRow(),
+                                           self._election.get_ballots()))[0]
 
         self.auditedBallotValue.setText(str(self.auditTable.currentRow()))
 
@@ -652,11 +652,14 @@ class Ui_MainWindow(object):
             self.actualValueComboBox.setCurrentIndex(actualValueIndex)
 
     def save_ballot(self):
+        if self._current_ballot is None:
+            return
+
         reported_value_text = self.reportedValueComboBox.currentText()
-        reported_value = filter(lambda x: x.get_name() == reported_value_text, self._election.get_contestants())
+        reported_value = list(filter(lambda x: x.get_name() == reported_value_text, self._election.get_contestants()))[0]
 
         actual_value_text = self.actualValueComboBox.currentText()
-        actual_value = filter(lambda x: x.get_name() == actual_value_text, self._election.get_contestants())
+        actual_value = list(filter(lambda x: x.get_name() == actual_value_text, self._election.get_contestants()))[0]
 
         self._current_ballot.set_reported_value(reported_value)
         self._current_ballot.set_actual_value(actual_value)
@@ -665,15 +668,21 @@ class Ui_MainWindow(object):
         self._audit.recompute(self._election.get_ballots(), self._election.get_reported_results())
 
     def save_and_add_ballot(self):
-        if int(self.auditedBallotValue.text()) >= self.auditTable.rowCount():
+        largest_audit_num = sorted(self._election.get_ballots(), key=lambda x: x.get_audit_seq_num())[-1].get_audit_seq_num()
+
+        if not self.auditedBallotValue.text().isdigit():
+            pass
+        elif int(self.auditedBallotValue.text()) >= self.auditTable.rowCount():
             audit_seq = int(self.auditedBallotValue.text())
 
             # TODO: Error checking for a non-selected candidate
             reported_value_text = self.reportedValueComboBox.currentText()
-            reported_value = filter(lambda x: x.get_name() == reported_value_text, self._election.get_contestants())
+            reported_value = list(filter(lambda x: x.get_name() == reported_value_text,
+                                         self._election.get_contestants()))[0]
 
             actual_value_text = self.actualValueComboBox.currentText()
-            actual_value = filter(lambda x: x.get_name() == actual_value_text, self._election.get_contestants())
+            actual_value = list(filter(lambda x: x.get_name() == actual_value_text,
+                                       self._election.get_contestants()))[0]
 
             # TODO: FIX THIS JANK
             physical_seq = -1
@@ -697,6 +706,8 @@ class Ui_MainWindow(object):
     def reload_audit_table(self):
         _translate = QtCore.QCoreApplication.translate
 
+        self.auditTable.setRowCount(0)
+
         # Table Setup
         self.auditTable.horizontalHeaderItem(Ui_MainWindow.TableNum.AUDIT_NUM).setText(
             _translate("MainWindow", "Audit #"))
@@ -708,6 +719,8 @@ class Ui_MainWindow(object):
             _translate("MainWindow", "Actual Value"))
 
         for i, ballot in enumerate(sorted(self._election.get_ballots(), key=lambda x: x.get_audit_seq_num())):
+            self.auditTable.insertRow(i)
+
             self.setTableCell(i, Ui_MainWindow.TableNum.AUDIT_NUM, str(i))
             self.setTableCell(i, Ui_MainWindow.TableNum.BALLOT_NUM, str(ballot.get_physical_ballot_num()))
             self.setTableCell(i, Ui_MainWindow.TableNum.REPORTED_VALUE, ballot.get_reported_value().get_name())

@@ -54,9 +54,7 @@ class RLA(audit.Audit):
         return param
 
     def set_parameters(self, param):
-        print(param)
         self._tolerance = float(param[0]) / 100
-        print(self._tolerance)
 
     def compute(self, ballot):
         ballot_vote = ballot.get_actual_value()
@@ -85,13 +83,6 @@ class RLA(audit.Audit):
 
     def recompute(self, ballots, results):
         self.init(results)
-
-        print("settings")
-        print(self._s)
-        print(self._tolerance)
-        print(self._margin)
-        print(self._margin / .5)
-        print(self._winner.get_name())
 
         for ballot in ballots:
             self.compute(ballot)
