@@ -21,7 +21,7 @@ for i, ballot in enumerate(e.get_ballots()):
 rla = audit.RLA()
 rla.init(pres.get_reported_results())
 
-rla.set_parameters([0.01])
+rla.set_parameters([1])
 rla.recompute(e.get_ballots(), pres.get_reported_results())
 
 print(rla.get_progress())

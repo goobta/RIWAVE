@@ -653,8 +653,6 @@ class Ui_MainWindow(object):
 
     def save_ballot(self):
         reported_value_text = self.reportedValueComboBox.currentText()
-
-        # TODO: Fix below line because it causes an error
         reported_value = filter(lambda x: x.get_name() == reported_value_text, self._election.get_contestants())
 
         actual_value_text = self.actualValueComboBox.currentText()
@@ -811,8 +809,7 @@ class Ui_MainWindow(object):
             self.actualValueComboBox_2.setCurrentIndex(0)
 
             # Reset audit parameters
-            for i in range(self.auditSpecialValuesTable.rowCount() - 1, 0):
-                self.auditSpecialValuesTable.removeRow(i)
+            self.auditSpecialValuesTable.setRowCount(0)
 
         # Audit details
         self.auditDetailsLabel.setText(_translate("MainWindow", "Audit Details"))
