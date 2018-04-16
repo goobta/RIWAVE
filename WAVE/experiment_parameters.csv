@@ -1,0 +1,3 @@
+num_votes,error_rate,num_candidates,election_resultsfile,audit_type,risk_limit,outputfile_name
+100,10,4,election_results.csv,rla,10,output2.csv
+300,20,4,election_results.csv,bayesian,13,output2.csv
