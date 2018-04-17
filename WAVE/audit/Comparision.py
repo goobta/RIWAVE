@@ -1,5 +1,10 @@
+import math
 import audit
 import election
+
+"""
+Based off of Dr. Stark's "Super-Simple Simultaneous Single-ballot Risk Limiting Audits"
+"""
 
 class Comparision(audit.Audit):
     name = "Comparision RLA"
@@ -8,33 +13,47 @@ class Comparision(audit.Audit):
                     "Full Hand Count Required"]
 
     def __init__(self):
-        pass
+        self._status = 0
+        self._alpha = 0.0
+        self._gamma = 0.0
+        self._lambda = 0.0
+        self._mu = -1
+        self._rho = 0
 
     def init(self, results):
-        pass
+        self._rho = (-math.log10(self._alpha)) / 
+                    ((1 / (2 * self._gamma)) + 
+                        self._lambda * math.log10(1 - (1 / (2 * self._gamma))))
+        self._mu = 
 
     def get_progress(self):
         pass
 
     def get_status(self):
-        pass
+        return Comparision.status_codes[self._status]
 
     @staticmethod
     def get_name():
-        pass
+        return Comparision.name
 
-    def get_parameters(self, param):
-        pass
+    def get_parameters(self):
+        param = [
+                ["Risk Limit", self._alpha],
+                ["Error Inflation Factor", self._gamma],
+                ["Tolerance", self._lambda]]
 
-   
-   def set_parameters(self, param):
+        return param
+
+    def set_parameters(self, param):
+        self._alpha = float(param[0])
+        self._gamma = float(param[1])
+        self._lambda = float(param[2])
+
+    def compute(self, ballot):
        pass
 
-   def compute(self, ballot):
+    def recompute(self, ballots, results):
        pass
 
-   def recompute(self, ballots, results):
-       pass
-   
-   def get_current_result(self):
+    def get_current_result(self):
        pass
