@@ -7,8 +7,9 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+import random
 
-class Ui_MainWindow(object):
+class Ui_Seed_Generation(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(800, 364)
@@ -25,7 +26,7 @@ class Ui_MainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label.sizePolicy().hasHeightForWidth())
         self.label.setSizePolicy(sizePolicy)
-        self.label.setMaximumSize(QtCore.QSize(350, 200))
+        self.label.setMaximumSize(QtCore.QSize(700, 400))
         font = QtGui.QFont()
         font.setFamily("Calibri")
         font.setPointSize(30)
@@ -45,8 +46,8 @@ class Ui_MainWindow(object):
         self.horizontalLayout_2.setSpacing(15)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.seedValueTextEdit = QtWidgets.QTextEdit(self.centralwidget)
-        self.seedValueTextEdit.setMinimumSize(QtCore.QSize(600, 50))
-        self.seedValueTextEdit.setMaximumSize(QtCore.QSize(600, 50))
+        self.seedValueTextEdit.setMinimumSize(QtCore.QSize(800, 50))
+        self.seedValueTextEdit.setMaximumSize(QtCore.QSize(1000, 50))
         font = QtGui.QFont()
         font.setFamily("Calibri")
         font.setPointSize(16)
@@ -94,6 +95,11 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
+        self.confirmButton.clicked.connect(self.confirm_seed)
+        self.backButton.clicked.connect(self.back)
+        self.exitButton.clicked.connect(self.exit)
+        self.saveConfigurationButton.clicked.connect(self.save_configuration)
+
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
@@ -107,5 +113,44 @@ class Ui_MainWindow(object):
         self.confirmButton.setText(_translate("MainWindow", "Confirm"))
         self.backButton.setText(_translate("MainWindow", "Back"))
         self.exitButton.setText(_translate("MainWindow", "Exit"))
-        self.saveConfigurationButton.setText(_translate("MainWindow", "Save Configuration"))
+        self.saveConfigurationButton.setText(_translate("MainWindow", "Save"))
+
+        # TODO: Seed PRNG here
+    def confirm_seed(self):
+        print(self.get_seed_text())
+        seed = int(self.get_seed_text())
+        random.seed(seed)
+        print(random.random())
+
+    def get_seed_text(self):
+        return self.seedValueTextEdit.toPlainText()
+
+    # TODO: Implement if needed
+    def back(self):
+        print("back")
+
+    #TODO: Implement
+    def exit(self):
+        print("exit")
+
+    #TODO: Call main window for audit
+    def save_configuration(self):
+        print("save")
+        max = 100
+        factor = 100000
+        print(round(random.random()*factor)%max)
+
+
+
+
+if __name__ == "__main__":
+    import sys
+
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_Seed_Generation()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
+
+    app.exec_()
 
