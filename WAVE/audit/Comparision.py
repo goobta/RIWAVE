@@ -57,3 +57,7 @@ class Comparision(audit.Audit):
 
     def get_current_result(self):
        pass
+
+    def _e(self, ballot):
+       pass
+
