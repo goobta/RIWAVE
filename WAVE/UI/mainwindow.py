@@ -756,7 +756,7 @@ class Ui_MainWindow(object):
             self.auditTable.insertRow(i)
 
             self.setTableCell(i, Ui_MainWindow.TableNum.AUDIT_NUM, str(i))
-            self.setTableCell(i, Ui_MainWindow.TableNum.BALLOT_NUM, str(ballot.get_physical_ballot_num()))
+            self.setTableCell(i, Ui_MainWindow.TableNum.BALLOT_NUM, str(ballot.get_physical_ballot_num() + 2))
             self.setTableCell(i, Ui_MainWindow.TableNum.REPORTED_VALUE, ballot.get_reported_value().get_name())
             self.setTableCell(i, Ui_MainWindow.TableNum.ACTUAL_VALUE, ballot.get_actual_value().get_name())
 

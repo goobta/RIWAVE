@@ -41,15 +41,17 @@ class Rispecial:
 
     def gen_ballots(self, filename):
         ballots = []
+        vote_num = 0
 
         with open(filename, 'r') as csvfile:
             csvfile.readline()  # Skip first line
             readCSV = csv.reader(csvfile, delimiter=',')
             for cvr, precinct, ballot_style, vote in readCSV:
                 ballot = election.Ballot()
-                ballot.set_physical_ballot_num(int(cvr))
+                ballot.set_physical_ballot_num(vote_num)
+                ballot.set_audit_seq_num(vote_num)
+                vote_num = vote_num + 1
 
-                ballots.append(ballot)
                 self.total_ballots = self.total_ballots + 1
                 if vote == 'Reject':
                     ballot.set_reported_value(self._contestants[1])
@@ -60,6 +62,7 @@ class Rispecial:
                     ballot.set_actual_value(self._contestants[0])
                     self.num_approve = self.num_approve + 1
 
+                ballots.append(ballot)
 
         for i, ballot in enumerate(ballots):
             ballot.set_audit_seq_num(ballot.get_physical_ballot_num())
