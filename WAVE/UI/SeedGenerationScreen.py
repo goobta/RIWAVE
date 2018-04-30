@@ -7,9 +7,14 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtCore import pyqtSignal
 import random
+import audit
+import UI
 
 class Ui_Seed_Generation(object):
+
+    seed = None
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(800, 364)
@@ -115,12 +120,24 @@ class Ui_Seed_Generation(object):
         self.exitButton.setText(_translate("MainWindow", "Exit"))
         self.saveConfigurationButton.setText(_translate("MainWindow", "Save"))
 
+    def __init__(self):
+        self._election = None
+        self._current_ballot = None
+        self._audit = None
+        self._audits = audit.get_audits()
+
+    def init(self, election, audit):
+        self._election = election
+        self._audit = audit
         # TODO: Seed PRNG here
+
     def confirm_seed(self):
         print(self.get_seed_text())
-        seed = int(self.get_seed_text())
-        random.seed(seed)
-        print(random.random())
+        self.seed = int(self.get_seed_text())
+        if (self.seed is not None):
+            random.seed(self.seed)
+            print(random.random())
+
 
     def get_seed_text(self):
         return self.seedValueTextEdit.toPlainText()
@@ -133,12 +150,33 @@ class Ui_Seed_Generation(object):
     def exit(self):
         print("exit")
 
+
+    def open_main_window(self):
+        self.window = QtWidgets.QMainWindow()
+        self.ui = UI.Ui_MainWindow()
+        self.ui.init(self._election, self._audit, self.seed)
+        self.ui.setupUi(self.window)
+        self.window.show()
+        # self.mainwindow2 = UI.Ui_MainWindow(self)
+        # self.mainwindow2.closed.connect(self.show())
+        # self.mainwindow2.show()
+        # self.hide()
+
+
     #TODO: Call main window for audit
     def save_configuration(self):
-        print("save")
-        max = 100
-        factor = 100000
-        print(round(random.random()*factor)%max)
+        print("Next")
+        if (self.seed is not None):
+            random.seed(self.seed)
+            print(random.random())
+            self.open_main_window()
+
+
+
+            # max = 100
+        # factor = 100000
+        # print(round(random.random()*factor)%max)
+
 
 
 
