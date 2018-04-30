@@ -2,8 +2,8 @@ import audit
 import election
 
 
-class RLA(audit.Audit):
-    name = "Risk Limiting Audit"
+class BallotPolling(audit.Audit):
+    name = "Ballot Polling Audit"
     status_codes = ["In Progress", 
                     "Election Results Verified",
                     "Full Hand Count Required"]
