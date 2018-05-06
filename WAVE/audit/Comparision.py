@@ -20,11 +20,20 @@ class Comparision(audit.Audit):
         self._diluted_margin = 0
         self._status = 0
 
-        self._risk_limit = 10
+        self._risk_limit = 5
         self._inflator = 1.03905
+        self._o1_expected = 0.001
+        self._o2_expected = 0.0001
+        self._u1_expected = 0.001
+        self._u2_expected = 0.0001
 
     def init(self, results, ballot_count):
+        results_sorted = sorted(results,
+                                key=lambda r: r.get_percentage(),
+                                reverse=True)
 
+        margin = results_sorted[0].get_votes() - results_sorted[1].get_votes()
+        self._diluted_margin = margin / self._risk_limit
 
     def get_progress(self):
         pass
