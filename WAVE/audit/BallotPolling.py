@@ -18,7 +18,7 @@ class BallotPolling(audit.Audit):
         self._status = 0
         self._cached_results = list()
 
-    def init(self, results):
+    def init(self, results, ballot_count):
         self._T = 1
         self._s = -1
         self._margin = -1

@@ -9,22 +9,22 @@ Based off of Dr. Stark's "Super-Simple Simultaneous Single-ballot Risk Limiting 
 class Comparision(audit.Audit):
     name = "Comparision RLA"
     status_codes = ["In Progress",
-                    "Election Results Verified",
-                    "Full Hand Count Required"]
+                    "Election Results Verified"]
 
     def __init__(self):
+        self._o1 = 0
+        self._o2 = 0
+        self._u1 = 0
+        self._u2 = 0
+        self._stopping_count = 0
+        self._diluted_margin = 0
         self._status = 0
-        self._alpha = 0.0
-        self._gamma = 0.0
-        self._lambda = 0.0
-        self._mu = -1
-        self._rho = 0
 
-    def init(self, results):
-        self._rho = (-math.log10(self._alpha)) / 
-                    ((1 / (2 * self._gamma)) + 
-                        self._lambda * math.log10(1 - (1 / (2 * self._gamma))))
-        self._mu = 
+        self._risk_limit = 10
+        self._inflator = 1.03905
+
+    def init(self, results, ballot_count):
+
 
     def get_progress(self):
         pass
@@ -37,10 +37,9 @@ class Comparision(audit.Audit):
         return Comparision.name
 
     def get_parameters(self):
-        param = [
-                ["Risk Limit", self._alpha],
-                ["Error Inflation Factor", self._gamma],
-                ["Tolerance", self._lambda]]
+        param = [["Risk Limit", self._alpha],
+                 ["Error Inflation Factor", self._gamma],
+                 ["Tolerance", self._lambda]]
 
         return param
 
@@ -56,8 +55,5 @@ class Comparision(audit.Audit):
        pass
 
     def get_current_result(self):
-       pass
-
-    def _e(self, ballot):
        pass
 
