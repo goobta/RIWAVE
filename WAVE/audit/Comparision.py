@@ -1,4 +1,4 @@
-import math
+from math import log
 import audit
 import election
 
@@ -28,16 +28,33 @@ class Comparision(audit.Audit):
         self._diluted_margin = 0
         self._status = 0
 
+        self._winner = None
+
     def init(self, results, ballot_count):
+        self._o1 = 0
+        self._o2 = 0
+        self._u1 = 0
+        self._u2 = 0
+
         results_sorted = sorted(results,
                                 key=lambda r: r.get_percentage(),
                                 reverse=True)
 
+        self._winner = results_sorted[0].get_contestant()
+
         margin = results_sorted[0].get_votes() - results_sorted[1].get_votes()
         self._diluted_margin = margin / self._risk_limit
+        self._stopping_count = -2 * self._inflator * log(self._risk_limit) / ( \
+                self._diluted_margin + 2 * self._inflator * ( \
+                    self._o1_expected * log(1 - (1 / (2 * self._inflator))) + \
+                    self._o2_expected * log(1 - (1 / self._inflator)) + \
+                    self._u1_expected * log(1 + (1 / (2 * self._inflator))) + \
+                    self._u2_expected * log(1 + (1 / self._inflator))
+                    )
+                )
 
     def get_progress(self):
-        pass
+        return "{} correct ballots left".format(self._stopping_count)
 
     def get_status(self):
         return Comparision.status_codes[self._status]
@@ -47,16 +64,22 @@ class Comparision(audit.Audit):
         return Comparision.name
 
     def get_parameters(self):
-        param = [["Risk Limit", self._alpha],
-                 ["Error Inflation Factor", self._gamma],
-                 ["Tolerance", self._lambda]]
+        param = [["Risk Limit", str(self._alpha)],
+                 ["Error Inflation Factor", str(self._inflator)],
+                 ["Expected 1-vote Overstatement Rate", str(self._o1_expected)],
+                 ["Expected 2-vote Overstatement Rate", str(self._o2_expected)],
+                 ["Expected 1-vote Understatement Rate", str(self._u1_expected)],
+                 ["Expected 2-vote Understatement Rate", str(self._u2_expected)]]
 
         return param
 
     def set_parameters(self, param):
-        self._alpha = float(param[0])
-        self._gamma = float(param[1])
-        self._lambda = float(param[2])
+        self._risk_limit = int(param[0])
+        self._inflator = float(param[1])
+        self._o1_expected = float(param[2])
+        self._o2_expected = float(param[3])
+        self._u1_expected = float(param[4])
+        self._u2_expected = float(param[5])
 
     def compute(self, ballot):
        pass
