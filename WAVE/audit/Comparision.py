@@ -12,7 +12,7 @@ class Comparision(audit.Audit):
                     "Election Results Verified"]
 
     def __init__(self):
-        # Arbritary Numbers - Numbers taken from Stark's paper
+        # Arbritary Starting Numbers - taken from Stark's paper
         self._risk_limit = 5
         self._inflator = 1.03905
         self._o1_expected = 0.001
@@ -84,7 +84,10 @@ class Comparision(audit.Audit):
         self.recompute()
 
     def compute(self, ballot):
-       pass
+        if ballot.get_actual_value() == ballot.get_reported_value():
+            self._stopping_count -= 1
+            return
+
 
     def recompute(self, ballots, results):
        pass
