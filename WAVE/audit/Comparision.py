@@ -121,6 +121,14 @@ class Comparision(audit.Audit):
             print("Actual: {}".format(ballot.get_actual_value().get_name()))
             print("Reported: {}".format(ballot.get_reported_value().get_name()))
 
+        self._stopping_count = -2 * self._inflator * ( \
+                log(self._risk_limit) + \
+                self._o1 * log(1 - 1 / (2 * self._inflator)) + \
+                self._o2 * log(1 - 1 / self._inflator) + \
+                self._u1 * log(1 + 1 / (2 * self._inflator)) + \
+                self._u2 * log(1 + 1 / self._inflator)) \
+                / self._diluted_margin
+
     def recompute(self, ballots, results):
        pass
 
