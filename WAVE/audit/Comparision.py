@@ -140,7 +140,13 @@ class Comparision(audit.Audit):
             self._status = 0
 
     def recompute(self, ballots, results):
-       pass
+        self.init(result)
+
+        for ballot in ballots:
+            self.compute(ballot)
+            
+            if self._stopping_count == 0:
+                return ballot
 
     def get_current_result(self):
        pass
