@@ -84,10 +84,42 @@ class Comparision(audit.Audit):
         self.recompute()
 
     def compute(self, ballot):
+        # No discrepency in the ballot
         if ballot.get_actual_value() == ballot.get_reported_value():
             self._stopping_count -= 1
             return
 
+        # If the ballot is an undervote
+        if ballot.get_reported_value().get_id() == Undervote.CID:
+            if ballot.get_actual_value().equals(self._winner):
+                self._u1 += 1
+            else:
+                self._o1 += 1
+
+        # If the ballot is an overvote
+        elif ballot.get_reported_value().get_id() == Overvote.CID:
+            if ballot.get_actual_value().equals(self._winner):
+                self._u1 += 1
+            else:
+                self._ol += 1
+
+        # If the ballot is a reported vote for the winner, but is really a vote for the
+        # loser
+        elif ballot.get_reported_value().equals(self_.winner) and \
+                not ballot.get_actual_value(self._winner):
+            self._o2 += 1
+
+        # If the ballot is a reported vote for a loser, but is really a vote for the 
+        # winner
+        elif not ballot.get_reported_value().equals(self._winner) and \
+                ballot.get_actual_value().equals(self._winner):
+            self._u2 += 1
+
+        # Error handling
+        else:
+            print("Error processing ballot {}".format(ballot.get_physical_ballot_num()))
+            print("Actual: {}".format(ballot.get_actual_value().get_name()))
+            print("Reported: {}".format(ballot.get_reported_value().get_name()))
 
     def recompute(self, ballots, results):
        pass
