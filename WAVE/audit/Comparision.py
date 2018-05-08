@@ -121,6 +121,7 @@ class Comparision(audit.Audit):
             print("Actual: {}".format(ballot.get_actual_value().get_name()))
             print("Reported: {}".format(ballot.get_reported_value().get_name()))
 
+        # Recacluate count using Stark's formula
         self._stopping_count = -2 * self._inflator * ( \
                 log(self._risk_limit) + \
                 self._o1 * log(1 - 1 / (2 * self._inflator)) + \
@@ -128,6 +129,15 @@ class Comparision(audit.Audit):
                 self._u1 * log(1 + 1 / (2 * self._inflator)) + \
                 self._u2 * log(1 + 1 / self._inflator)) \
                 / self._diluted_margin
+
+        # Update status
+        self._refresh_status()
+
+    def _refresh_status(self):
+        if self._stopping_count == 0:
+            self._status = 1
+        else:
+            self._status = 0
 
     def recompute(self, ballots, results):
        pass
