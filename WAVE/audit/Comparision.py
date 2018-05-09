@@ -9,7 +9,7 @@ Based off of Dr. Stark's "Super-Simple Simultaneous Single-ballot Risk Limiting 
 class Comparision(audit.Audit):
     name = "Comparision RLA"
     status_codes = ["In Progress",
-                    "Election Results Verified"]
+                    "Election Results \nVerified"]
 
     def __init__(self):
         # Arbritary Starting Numbers - taken from Stark's paper
@@ -69,7 +69,7 @@ class Comparision(audit.Audit):
             self._cached_results.append([result.get_contestant(), 0])
 
     def get_progress(self):
-        return "{} correct ballots left".format(self._stopping_count)
+        return "{} correct \nballots left".format(self._stopping_count)
 
     def get_status(self):
         return Comparision.status_codes[self._status]
@@ -132,7 +132,7 @@ class Comparision(audit.Audit):
             self._u2 += 1
 
         # Error handling
-        else:
+        elif recompute:
             print("Error processing ballot {}".format(ballot.get_physical_ballot_num()))
             print("Actual: {}".format(ballot.get_actual_value().get_name()))
             print("Reported: {}".format(ballot.get_reported_value().get_name()))
