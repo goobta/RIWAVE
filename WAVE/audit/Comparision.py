@@ -29,8 +29,12 @@ class Comparision(audit.Audit):
         self._status = 0
 
         self._winner = None
+        self._cached_results = list()
 
     def init(self, results, ballot_count):
+        self._status = 0
+        self._cached_results = list()
+
         self._o1 = 0
         self._o2 = 0
         self._u1 = 0
@@ -52,6 +56,9 @@ class Comparision(audit.Audit):
                     self._u2_expected * log(1 + (1 / self._inflator))
                     )
                 )
+
+        for result in results:
+            self._cached_results.append([result.get_contestant(), 0])
 
     def get_progress(self):
         return "{} correct ballots left".format(self._stopping_count)
@@ -84,10 +91,13 @@ class Comparision(audit.Audit):
         self.recompute()
 
     def compute(self, ballot):
+        # Flag if the stopping count needs to be recomputed mathematically
+        recompute = True
+
         # No discrepency in the ballot
         if ballot.get_actual_value() == ballot.get_reported_value():
             self._stopping_count -= 1
-            return
+            recompute = False
 
         # If the ballot is an undervote
         if ballot.get_reported_value().get_id() == Undervote.CID:
@@ -122,13 +132,20 @@ class Comparision(audit.Audit):
             print("Reported: {}".format(ballot.get_reported_value().get_name()))
 
         # Recacluate count using Stark's formula
-        self._stopping_count = -2 * self._inflator * ( \
-                log(self._risk_limit) + \
-                self._o1 * log(1 - 1 / (2 * self._inflator)) + \
-                self._o2 * log(1 - 1 / self._inflator) + \
-                self._u1 * log(1 + 1 / (2 * self._inflator)) + \
-                self._u2 * log(1 + 1 / self._inflator)) \
-                / self._diluted_margin
+        if recompute:
+            self._stopping_count = -2 * self._inflator * ( \
+                    log(self._risk_limit) + \
+                    self._o1 * log(1 - 1 / (2 * self._inflator)) + \
+                    self._o2 * log(1 - 1 / self._inflator) + \
+                    self._u1 * log(1 + 1 / (2 * self._inflator)) + \
+                    self._u2 * log(1 + 1 / self._inflator)) \
+                    / self._diluted_margin
+
+        # Update cached results
+        for i in range(len(self._cached_results)):
+            if self._cached_results[i][0].equals(ballot.get_actual_value()):
+                self._cached_results[i][1] += 1
+                break
 
         # Update status
         self._refresh_status()
@@ -149,5 +166,13 @@ class Comparision(audit.Audit):
                 return ballot
 
     def get_current_result(self):
-       pass
+        count = 0
 
+        for result in self._cached_results:
+            count += result[1]
+
+        audit_results = []
+
+        for person in self._cached_results:
+            result = election.Result(person[0], person[1] / count)
+            audit_results.append(result)
