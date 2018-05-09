@@ -73,7 +73,7 @@ class Comparision(audit.Audit):
         return Comparision.name
 
     def get_parameters(self):
-        param = [["Risk Limit", str(self._alpha)],
+        param = [["Risk Limit", str(self._risk_limit)],
                  ["Error Inflation Factor", str(self._inflator)],
                  ["Expected 1-vote Overstatement Rate", str(self._o1_expected)],
                  ["Expected 2-vote Overstatement Rate", str(self._o2_expected)],

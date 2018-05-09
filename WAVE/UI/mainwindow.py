@@ -766,17 +766,26 @@ class Ui_MainWindow(object):
             param.append(self.auditSpecialValuesTable.item(i, 1).text())
 
         if self._audit.get_name() != self.getAuditTypeComboBox().currentText():
-            for a in self._audits:
-                if a.get_name() == self.getAuditTypeComboBox().currentText():
-                    self._audit = a()
-                    self._audit.init(self._election.get_reported_results(),
-                            self._election.get_ballot_count())
+            self._audit = self._audits[int(self.getAuditTypeComboBoxSelectedIndex())]()
+            self._audit.init(self._election.get_reported_results(),
+                    self._election.get_ballot_count())
 
-        self._audit.set_parameters(param)
+            self.refresh_parameters()
 
-        stopped_ballot = self._audit.recompute(self._election.get_ballots(), 
+        else:
+            self._audit.set_parameters(param)
+
+            stopped_ballot = self._audit.recompute(self._election.get_ballots(), 
                 self._election.get_reported_results())
 
+    def refresh_parameters(self):
+        self.auditSpecialValuesTable.setRowCount(0)
+
+        for i, param in enumerate(self._audit.get_parameters()):
+            self.auditSpecialValuesTable.insertRow(i)
+
+            self.setAuditSpecialValueTableCell(i, 0, param[0])
+            self.setAuditSpecialValueTableCell(i, 1, param[1])
 
     def refresh_audit_status(self):
         if self._audit is not None:
@@ -862,11 +871,7 @@ class Ui_MainWindow(object):
             self.actualValueComboBox_2.setCurrentIndex(self.getCurrentAuditIndex(self._audit))
 
             # Populate audit parameters
-            for i, param in enumerate(self._audit.get_parameters()):
-                self.auditSpecialValuesTable.insertRow(i)
-
-                self.setAuditSpecialValueTableCell(i, 0, param[0])
-                self.setAuditSpecialValueTableCell(i, 1, param[1])
+            self.refresh_parameters()
 
         else:
             # Set the audit selector drop down to "Select Audit"

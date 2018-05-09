@@ -13,7 +13,7 @@ class BallotPolling(audit.Audit):
         self._s = -1
         self._margin = -1
         self._winner = -1
-        self._tolerance = -1
+        self._tolerance = .1
 
         self._status = 0
         self._cached_results = list()
