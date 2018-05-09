@@ -675,6 +675,7 @@ class Ui_MainWindow(object):
 
     def save_ballot(self):
         if self._current_ballot is None:
+            print("here")
             return
 
         reported_value_text = self.reportedValueComboBox.currentText()
@@ -777,6 +778,8 @@ class Ui_MainWindow(object):
 
             stopped_ballot = self._audit.recompute(self._election.get_ballots(), 
                 self._election.get_reported_results())
+
+            self.refresh_audit_status()
 
     def refresh_parameters(self):
         self.auditSpecialValuesTable.setRowCount(0)
