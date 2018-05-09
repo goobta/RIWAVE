@@ -2,7 +2,7 @@ import sys
 import inspect
 
 from audit.Audit import Audit
-from audit.RLA import RLA
+from audit.BallotPolling import BallotPolling
 from audit.Bayesian import Bayesian
 
 
