@@ -1,0 +1,111 @@
+# -*- coding: utf-8 -*-
+
+# Form implementation generated from reading ui file 'SeedGenerationScreen.ui'
+#
+# Created by: PyQt5 UI code generator 5.10
+#
+# WARNING! All changes made in this file will be lost!
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+class Ui_MainWindow(object):
+    def setupUi(self, MainWindow):
+        MainWindow.setObjectName("MainWindow")
+        MainWindow.resize(800, 364)
+        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget.setObjectName("centralwidget")
+        self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
+        self.gridLayout.setObjectName("gridLayout")
+        self.horizontalLayout = QtWidgets.QHBoxLayout()
+        self.horizontalLayout.setSpacing(0)
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        self.label = QtWidgets.QLabel(self.centralwidget)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label.sizePolicy().hasHeightForWidth())
+        self.label.setSizePolicy(sizePolicy)
+        self.label.setMaximumSize(QtCore.QSize(350, 200))
+        font = QtGui.QFont()
+        font.setFamily("Calibri")
+        font.setPointSize(30)
+        self.label.setFont(font)
+        self.label.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.label.setAlignment(QtCore.Qt.AlignCenter)
+        self.label.setObjectName("label")
+        self.horizontalLayout.addWidget(self.label)
+        self.gridLayout.addLayout(self.horizontalLayout, 0, 0, 1, 2)
+        self.verticalLayout = QtWidgets.QVBoxLayout()
+        self.verticalLayout.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
+        self.verticalLayout.setContentsMargins(10, -1, 20, -1)
+        self.verticalLayout.setSpacing(0)
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_2.setSpacing(15)
+        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
+        self.seedValueTextEdit = QtWidgets.QTextEdit(self.centralwidget)
+        self.seedValueTextEdit.setMinimumSize(QtCore.QSize(600, 50))
+        self.seedValueTextEdit.setMaximumSize(QtCore.QSize(600, 50))
+        font = QtGui.QFont()
+        font.setFamily("Calibri")
+        font.setPointSize(16)
+        self.seedValueTextEdit.setFont(font)
+        self.seedValueTextEdit.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.seedValueTextEdit.setInputMethodHints(QtCore.Qt.ImhFormattedNumbersOnly)
+        self.seedValueTextEdit.setFrameShadow(QtWidgets.QFrame.Plain)
+        self.seedValueTextEdit.setLineWidth(2)
+        self.seedValueTextEdit.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+        self.seedValueTextEdit.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+        self.seedValueTextEdit.setLineWrapMode(QtWidgets.QTextEdit.NoWrap)
+        self.seedValueTextEdit.setOverwriteMode(True)
+        self.seedValueTextEdit.setObjectName("seedValueTextEdit")
+        self.horizontalLayout_2.addWidget(self.seedValueTextEdit)
+        self.confirmButton = QtWidgets.QPushButton(self.centralwidget)
+        self.confirmButton.setMinimumSize(QtCore.QSize(100, 35))
+        self.confirmButton.setMaximumSize(QtCore.QSize(100, 35))
+        self.confirmButton.setObjectName("confirmButton")
+        self.horizontalLayout_2.addWidget(self.confirmButton)
+        self.verticalLayout.addLayout(self.horizontalLayout_2)
+        self.gridLayout.addLayout(self.verticalLayout, 2, 0, 1, 2)
+        self.horizontalLayout_4 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_4.setObjectName("horizontalLayout_4")
+        self.gridLayout.addLayout(self.horizontalLayout_4, 3, 0, 1, 1)
+        self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_3.setObjectName("horizontalLayout_3")
+        self.backButton = QtWidgets.QPushButton(self.centralwidget)
+        self.backButton.setMinimumSize(QtCore.QSize(100, 35))
+        self.backButton.setMaximumSize(QtCore.QSize(100, 35))
+        self.backButton.setObjectName("backButton")
+        self.horizontalLayout_3.addWidget(self.backButton)
+        self.exitButton = QtWidgets.QPushButton(self.centralwidget)
+        self.exitButton.setMinimumSize(QtCore.QSize(100, 35))
+        self.exitButton.setMaximumSize(QtCore.QSize(100, 35))
+        self.exitButton.setObjectName("exitButton")
+        self.horizontalLayout_3.addWidget(self.exitButton)
+        self.saveConfigurationButton = QtWidgets.QPushButton(self.centralwidget)
+        self.saveConfigurationButton.setMinimumSize(QtCore.QSize(100, 35))
+        self.saveConfigurationButton.setMaximumSize(QtCore.QSize(100, 35))
+        self.saveConfigurationButton.setObjectName("saveConfigurationButton")
+        self.horizontalLayout_3.addWidget(self.saveConfigurationButton)
+        self.gridLayout.addLayout(self.horizontalLayout_3, 3, 1, 1, 1)
+        MainWindow.setCentralWidget(self.centralwidget)
+
+        self.retranslateUi(MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+    def retranslateUi(self, MainWindow):
+        _translate = QtCore.QCoreApplication.translate
+        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        self.label.setText(_translate("MainWindow", "RI WAVE - Seed Generation"))
+        self.seedValueTextEdit.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:\'Calibri\'; font-size:16pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:14pt;\"><br /></p></body></html>"))
+        self.seedValueTextEdit.setPlaceholderText(_translate("MainWindow", "Enter Seed Here"))
+        self.confirmButton.setText(_translate("MainWindow", "Confirm"))
+        self.backButton.setText(_translate("MainWindow", "Back"))
+        self.exitButton.setText(_translate("MainWindow", "Exit"))
+        self.saveConfigurationButton.setText(_translate("MainWindow", "Save Configuration"))
+
