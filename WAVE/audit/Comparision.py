@@ -30,10 +30,12 @@ class Comparision(audit.Audit):
 
         self._winner = None
         self._cached_results = list()
+        self._ballot_count = list()
 
     def init(self, results, ballot_count):
         self._status = 0
         self._cached_results = list()
+        self._ballot_count = ballot_count
 
         self._o1 = 0
         self._o2 = 0
@@ -157,7 +159,7 @@ class Comparision(audit.Audit):
             self._status = 0
 
     def recompute(self, ballots, results):
-        self.init(result)
+        self.init(results, self._ballot_count)
 
         for ballot in ballots:
             self.compute(ballot)

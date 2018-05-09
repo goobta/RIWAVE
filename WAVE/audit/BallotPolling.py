@@ -17,6 +17,7 @@ class BallotPolling(audit.Audit):
 
         self._status = 0
         self._cached_results = list()
+        self._ballot_count = None
 
     def init(self, results, ballot_count):
         self._T = 1
@@ -34,6 +35,8 @@ class BallotPolling(audit.Audit):
         self._s = results_sorted[0].get_percentage()
         self._winner = results_sorted[0].get_contestant()
         self._margin = self._s - self._tolerance
+
+        self._ballot_count = ballot_count
 
         for result in results:
             self._cached_results.append([result.get_contestant(), 0])
@@ -82,7 +85,7 @@ class BallotPolling(audit.Audit):
             self._status = 0
 
     def recompute(self, ballots, results):
-        self.init(results)
+        self.init(results, self._ballot_count)
 
         for ballot in ballots:
             self.compute(ballot)
