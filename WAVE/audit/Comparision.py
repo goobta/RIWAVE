@@ -1,4 +1,4 @@
-from math import log
+from math import log, ceil
 import audit
 import election
 
@@ -50,14 +50,14 @@ class Comparision(audit.Audit):
 
         margin = results_sorted[0].get_votes() - results_sorted[1].get_votes()
         self._diluted_margin = margin / self._risk_limit
-        self._stopping_count = -2 * self._inflator * log(self._risk_limit) / ( \
+        self._stopping_count = ceil(-2 * self._inflator * log(self._risk_limit) / ( \
                 self._diluted_margin + 2 * self._inflator * ( \
                     self._o1_expected * log(1 - (1 / (2 * self._inflator))) + \
                     self._o2_expected * log(1 - (1 / self._inflator)) + \
                     self._u1_expected * log(1 + (1 / (2 * self._inflator))) + \
                     self._u2_expected * log(1 + (1 / self._inflator))
                     )
-                )
+                ))
 
         for r in results_sorted:
             print(r.get_votes())
@@ -139,13 +139,13 @@ class Comparision(audit.Audit):
 
         # Recacluate count using Stark's formula
         if recompute:
-            self._stopping_count = -2 * self._inflator * ( \
+            self._stopping_count = ceil(-2 * self._inflator * ( \
                     log(self._risk_limit) + \
                     self._o1 * log(1 - 1 / (2 * self._inflator)) + \
                     self._o2 * log(1 - 1 / self._inflator) + \
                     self._u1 * log(1 + 1 / (2 * self._inflator)) + \
                     self._u2 * log(1 + 1 / self._inflator)) \
-                    / self._diluted_margin
+                    / self._diluted_margin)
 
         # Update cached results
         for i in range(len(self._cached_results)):
