@@ -45,11 +45,11 @@ class BallotPolling(audit.Audit):
         return "T = %.4f" % self._T
 
     def get_status(self):
-        return RLA.status_codes[self._status]
+       return BallotPolling.status_codes[self._status]
 
     @staticmethod
     def get_name():
-        return RLA.name
+        return BallotPolling.name
 
     def get_parameters(self):
         param = [["Tolerance", "%.1f" % (self._tolerance * 100)]]
