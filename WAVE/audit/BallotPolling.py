@@ -42,7 +42,7 @@ class BallotPolling(audit.Audit):
             self._cached_results.append([result.get_contestant(), 0])
 
     def get_progress(self):
-        return "T = %.4f" % self._T
+        return "T = {0:.4f}".format(self._T)
 
     def get_status(self):
        return BallotPolling.status_codes[self._status]
@@ -52,7 +52,7 @@ class BallotPolling(audit.Audit):
         return BallotPolling.name
 
     def get_parameters(self):
-        param = [["Tolerance", "%.1f" % (self._tolerance * 100)]]
+        param = [["Tolerance", "{0:.1f}%".format(self._tolerance * 100)]]
         
         return param
 
