@@ -59,6 +59,12 @@ class Comparision(audit.Audit):
                     )
                 )
 
+        for r in results_sorted:
+            print(r.get_votes())
+
+        print(results_sorted[0].get_votes())
+        print(margin)
+
         for result in results:
             self._cached_results.append([result.get_contestant(), 0])
 
@@ -116,7 +122,7 @@ class Comparision(audit.Audit):
         # If the ballot is a reported vote for the winner, but is really a vote for the
         # loser
         elif ballot.get_reported_value().equals(self._winner) and \
-                not ballot.get_actual_value(self._winner):
+                not ballot.get_actual_value().equals(self._winner):
             self._o2 += 1
 
         # If the ballot is a reported vote for a loser, but is really a vote for the 
