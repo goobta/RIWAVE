@@ -26,7 +26,6 @@ class Ui_MainWindow(object):
 
         self._audits = audit.get_audits()
 
-
     def init(self, election, audit):
         self._election = election
         self._audit = audit
@@ -766,8 +765,18 @@ class Ui_MainWindow(object):
         for i in range(self.auditSpecialValuesTable.rowCount()):
             param.append(self.auditSpecialValuesTable.item(i, 1).text())
 
+        if self._audit.get_name() != self.getAuditTypeComboBox().currentText():
+            for a in self._audits:
+                if a.get_name() == self.getAuditTypeComboBox().currentText():
+                    self._audit = a()
+                    self._audit.init(self._election.get_reported_results(),
+                            self._election.get_ballot_count())
+
         self._audit.set_parameters(param)
-        self._audit.recompute(self._election.get_ballots(), self._election.get_reported_results())
+
+        stopped_ballot = self._audit.recompute(self._election.get_ballots(), 
+                self._election.get_reported_results())
+
 
     def refresh_audit_status(self):
         if self._audit is not None:

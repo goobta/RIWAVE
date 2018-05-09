@@ -159,6 +159,8 @@ class Comparision(audit.Audit):
             self._status = 0
 
     def recompute(self, ballots, results):
+        print("dab on them")
+
         self.init(results, self._ballot_count)
 
         for ballot in ballots:
