@@ -57,7 +57,10 @@ class BallotPolling(audit.Audit):
         return param
 
     def set_parameters(self, param):
-        self._tolerance = float(param[0]) / 100
+        if isinstance(param[0], int):
+            self._tolerance = float(param[0]) / 100
+        else:
+            self._tolerance = float(param[0].replace("%", "")) / 100
 
     def compute(self, ballot):
         ballot_vote = ballot.get_actual_value()
