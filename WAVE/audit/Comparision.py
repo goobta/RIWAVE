@@ -100,14 +100,14 @@ class Comparision(audit.Audit):
             recompute = False
 
         # If the ballot is an undervote
-        if ballot.get_reported_value().get_id() == Undervote.CID:
+        if ballot.get_reported_value().get_id() == election.Undervote.CID:
             if ballot.get_actual_value().equals(self._winner):
                 self._u1 += 1
             else:
                 self._o1 += 1
 
         # If the ballot is an overvote
-        elif ballot.get_reported_value().get_id() == Overvote.CID:
+        elif ballot.get_reported_value().get_id() == election.Overvote.CID:
             if ballot.get_actual_value().equals(self._winner):
                 self._u1 += 1
             else:
@@ -115,7 +115,7 @@ class Comparision(audit.Audit):
 
         # If the ballot is a reported vote for the winner, but is really a vote for the
         # loser
-        elif ballot.get_reported_value().equals(self_.winner) and \
+        elif ballot.get_reported_value().equals(self._winner) and \
                 not ballot.get_actual_value(self._winner):
             self._o2 += 1
 
