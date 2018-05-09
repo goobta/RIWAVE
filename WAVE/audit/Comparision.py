@@ -90,8 +90,6 @@ class Comparision(audit.Audit):
         self._u1_expected = float(param[4])
         self._u2_expected = float(param[5])
 
-        self.recompute()
-
     def compute(self, ballot):
         # Flag if the stopping count needs to be recomputed mathematically
         recompute = True
