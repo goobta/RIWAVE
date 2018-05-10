@@ -52,7 +52,7 @@ class BallotPolling(audit.Audit):
         return BallotPolling.name
 
     def get_parameters(self):
-        param = [["Tolerance", "{0:.1f}%".format(self._tolerance * 100)]]
+        param = [["Tolerance", "{0:.2f}%".format(self._tolerance * 100)]]
         
         return param
 

@@ -13,7 +13,7 @@ class Comparision(audit.Audit):
 
     def __init__(self):
         # Arbritary Starting Numbers - taken from Stark's paper
-        self._risk_limit = 5
+        self._risk_limit = 0.05
         self._inflator = 1.03905
         self._o1_expected = 0.001
         self._o2_expected = 0.0001
@@ -63,6 +63,7 @@ class Comparision(audit.Audit):
         print("Margin: {}".format(margin))
         print("Total Votes: {}".format(self._ballot_count))
         print("Diluted Margin: {}".format(self._diluted_margin))
+        print("Risk Limit: {}".format(self._risk_limit))
 
         for result in results:
             self._cached_results.append([result.get_contestant(), 0])
@@ -78,7 +79,7 @@ class Comparision(audit.Audit):
         return Comparision.name
 
     def get_parameters(self):
-        param = [["Risk Limit", str(self._risk_limit)],
+        param = [["Risk Limit", str(self._risk_limit * 100)],
                  ["Error Inflation Factor", str(self._inflator)],
                  ["Expected 1-vote Overstatement Rate", str(self._o1_expected)],
                  ["Expected 2-vote Overstatement Rate", str(self._o2_expected)],
@@ -88,7 +89,7 @@ class Comparision(audit.Audit):
         return param
 
     def set_parameters(self, param):
-        self._risk_limit = float(param[0])
+        self._risk_limit = float(param[0]) / 100
         self._inflator = float(param[1])
         self._o1_expected = float(param[2])
         self._o2_expected = float(param[3])
