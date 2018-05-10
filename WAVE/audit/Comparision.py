@@ -49,7 +49,7 @@ class Comparision(audit.Audit):
         self._winner = results_sorted[0].get_contestant()
 
         margin = results_sorted[0].get_votes() - results_sorted[1].get_votes()
-        self._diluted_margin = margin / self._risk_limit
+        self._diluted_margin = margin / self._ballot_count
         self._stopping_count = ceil(-2 * self._inflator * log(self._risk_limit) / ( \
                 self._diluted_margin + 2 * self._inflator * ( \
                     self._o1_expected * log(1 - (1 / (2 * self._inflator))) + \
@@ -58,6 +58,11 @@ class Comparision(audit.Audit):
                     self._u2_expected * log(1 + (1 / self._inflator))
                     )
                 ))
+
+        print("Initial Stopping Count: {}".format(self._stopping_count))
+        print("Margin: {}".format(margin))
+        print("Total Votes: {}".format(self._ballot_count))
+        print("Diluted Margin: {}".format(self._diluted_margin))
 
         for result in results:
             self._cached_results.append([result.get_contestant(), 0])
@@ -149,6 +154,11 @@ class Comparision(audit.Audit):
 
         # Update status
         self._refresh_status()
+
+        print("\n")
+        print("Actual: {}".format(ballot.get_actual_value().get_name()))
+        print("Reported: {}".format(ballot.get_reported_value().get_name()))
+        print("Stopping Count: {}".format(self._stopping_count))
 
     def _refresh_status(self):
         if self._stopping_count == 0:
