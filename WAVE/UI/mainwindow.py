@@ -675,7 +675,6 @@ class Ui_MainWindow(object):
 
     def save_ballot(self):
         if self._current_ballot is None:
-            print("here")
             return
 
         reported_value_text = self.reportedValueComboBox.currentText()
@@ -761,6 +760,7 @@ class Ui_MainWindow(object):
             self.setTableCell(i, Ui_MainWindow.TableNum.ACTUAL_VALUE, ballot.get_actual_value().get_name())
 
     def recompute_audit(self):
+        self.reload_audit_table()
         param = []
 
         for i in range(self.auditSpecialValuesTable.rowCount()):
@@ -779,7 +779,10 @@ class Ui_MainWindow(object):
             stopped_ballot = self._audit.recompute(self._election.get_ballots(), 
                 self._election.get_reported_results())
 
-            print(stopped_ballot.get_audit_seq_num())
+            for i in range(self.auditTable.columnCount()):
+                self.auditTable.item(stopped_ballot.get_audit_seq_num(), i).setBackground(
+                        QtGui.QColor(255, 154, 0))
+
             self.refresh_audit_status()
 
     def refresh_parameters(self):

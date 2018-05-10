@@ -83,7 +83,7 @@ class Comparision(audit.Audit):
         return param
 
     def set_parameters(self, param):
-        self._risk_limit = int(param[0])
+        self._risk_limit = float(param[0])
         self._inflator = float(param[1])
         self._o1_expected = float(param[2])
         self._o2_expected = float(param[3])
