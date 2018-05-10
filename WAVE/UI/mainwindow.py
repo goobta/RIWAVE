@@ -690,7 +690,7 @@ class Ui_MainWindow(object):
         self._current_ballot.set_actual_value(actual_value)
 
         self.reload_audit_table()
-        self._audit.recompute(self._election.get_ballots(), self._election.get_reported_results())
+        self.recompute_and_highlight()
         self.refresh_audit_status()
 
     def save_and_add_ballot(self):
@@ -775,15 +775,17 @@ class Ui_MainWindow(object):
 
         else:
             self._audit.set_parameters(param)
+            self.recompute_and_highlight()
+            self.refresh_audit_status()
 
-            stopped_ballot = self._audit.recompute(self._election.get_ballots(), 
-                self._election.get_reported_results())
-
+    def recompute_and_highlight(self):
+        stopped_ballot = self._audit.recompute(self._election.get_ballots(), 
+            self._election.get_reported_results())
+        
+        if stopped_ballot is not None:
             for i in range(self.auditTable.columnCount()):
                 self.auditTable.item(stopped_ballot.get_audit_seq_num(), i).setBackground(
                         QtGui.QColor(255, 154, 0))
-
-            self.refresh_audit_status()
 
     def refresh_parameters(self):
         self.auditSpecialValuesTable.setRowCount(0)

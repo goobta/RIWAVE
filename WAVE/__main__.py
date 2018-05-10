@@ -12,7 +12,7 @@ if __name__ != "__main__":
 ballot_count = 100
 
 pres = data_gen.Pres2016()
-pres.gen_ballots(ballot_count, .20)
+pres.gen_ballots(ballot_count, 0.05)
 
 e = pres.get_election()
 
