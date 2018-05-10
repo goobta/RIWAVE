@@ -779,6 +779,7 @@ class Ui_MainWindow(object):
             stopped_ballot = self._audit.recompute(self._election.get_ballots(), 
                 self._election.get_reported_results())
 
+            print(stopped_ballot.get_audit_seq_num())
             self.refresh_audit_status()
 
     def refresh_parameters(self):

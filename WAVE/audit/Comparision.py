@@ -59,12 +59,6 @@ class Comparision(audit.Audit):
                     )
                 ))
 
-        for r in results_sorted:
-            print(r.get_votes())
-
-        print(results_sorted[0].get_votes())
-        print(margin)
-
         for result in results:
             self._cached_results.append([result.get_contestant(), 0])
 
@@ -163,8 +157,6 @@ class Comparision(audit.Audit):
             self._status = 0
 
     def recompute(self, ballots, results):
-        print("dab on them")
-
         self.init(results, self._ballot_count)
 
         for ballot in ballots:

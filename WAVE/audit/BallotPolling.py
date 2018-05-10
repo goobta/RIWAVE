@@ -88,7 +88,6 @@ class BallotPolling(audit.Audit):
             self._status = 0
 
     def recompute(self, ballots, results):
-        print("Dab on them 2")
         self.init(results, self._ballot_count)
 
         for ballot in ballots:
