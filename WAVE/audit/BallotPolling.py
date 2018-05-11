@@ -93,6 +93,9 @@ class BallotPolling(audit.Audit):
         for ballot in ballots:
             self.compute(ballot)
 
+            if self._T > 9.9 or self._T < 0.011:
+                return ballot
+
     def get_current_result(self):
         count = 0
 
