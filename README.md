@@ -20,6 +20,12 @@ the Terminal. Your terminal should look something like `cd
 /Users/test_user/Downloads/mac_RI_special`. Press enter. Type `./audit_station` and press
 enter.
 
+## Linux
+
+Download the compressed file that starts with `linux`. Unzip the file and run the executable
+`audit_station`. This is known to work on Fedora 28. If the executable doesn't work on your
+distribution, then you may need to build from sources. See below for futher instructions.
+
 # For Developers
 This project is built using **Python 3**. 
 
