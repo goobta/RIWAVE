@@ -64,6 +64,11 @@ class Pres2016:
                     ballot.set_actual_value(result.get_contestant())
 
                 ballots.append(ballot)
+                
+                for r in self._results:
+                    if r.get_contestant() == ballot.get_reported_value():
+                        r.set_votes(r.get_votes() + 1)
+                        break
 
         shuffle(ballots)
         shuffle(ballots)

@@ -1,0 +1,7 @@
+Number of Votes,Error rate,Number of Candidates,Election Results Filename,Audit type,Risk Limit,Number of Votes Counted,Audit Result
+100,10,4,election_results.csv,rla,10,100 Votes,Full Hand Count Required
+300,20,4,election_results.csv,bayesian,13,100 Votes,Full Hand Count Required
+100,10,4,election_results.csv,rla,10,100 Votes,Full Hand Count Required
+300,20,4,election_results.csv,bayesian,13,100 Votes,Full Hand Count Required
+100,10,4,election_results.csv,rla,10,100 Votes,Full Hand Count Required
+300,20,4,election_results.csv,bayesian,13,100 Votes,Full Hand Count Required

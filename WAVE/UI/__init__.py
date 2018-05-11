@@ -1,1 +1,2 @@
 from UI.mainwindow import Ui_MainWindow
+from UI.SeedGenerationScreen import Ui_Seed_Generation

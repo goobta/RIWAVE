@@ -11,8 +11,18 @@ from PyQt5.QtWidgets import QTableWidget,QTableWidgetItem
 import enum
 import audit
 import election
-
+import random
+import csv
+from PyQt5.QtCore import pyqtSignal
 class Ui_MainWindow(object):
+    closed = pyqtSignal()
+    audited_ballot_nums = []
+    audited_ballots = []
+    current_audit_ballot = 0
+    total_rows = 0
+    filename = 'Election_Params.csv'
+    seed = 0
+
     class TableNum(enum.IntEnum):
         AUDIT_NUM = 0
         BALLOT_NUM = 1
@@ -26,10 +36,12 @@ class Ui_MainWindow(object):
 
         self._audits = audit.get_audits()
 
-
-    def init(self, election, audit):
+    def init(self, election, audit,seed):
         self._election = election
         self._audit = audit
+        self.seed = int(seed)
+
+        print("SEED " + str(self.seed))
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -689,12 +701,18 @@ class Ui_MainWindow(object):
 
         self._current_ballot.set_reported_value(reported_value)
         self._current_ballot.set_actual_value(actual_value)
+        self.audited_ballots[self._current_ballot.get_audit_seq_num()].set_actual_value(actual_value)
+        self.audited_ballots[self._current_ballot.get_audit_seq_num()].set_reported_value(reported_value)
+
+
 
         self.reload_audit_table()
-        self._audit.recompute(self._election.get_ballots(), self._election.get_reported_results())
+        self._audit.recompute(self.audited_ballots, self._election.get_reported_results())
+        self.recompute_and_highlight()
         self.refresh_audit_status()
 
     def save_and_add_ballot(self):
+        self.choose_next_ballot()
         if not self.auditedBallotValue.text().isdigit():
             pass
         elif int(self.auditedBallotValue.text()) >= self.auditTable.rowCount():
@@ -728,11 +746,14 @@ class Ui_MainWindow(object):
 
             self._election.add_ballot(ballot)
             self.reload_audit_table()
-            self._audit.recompute(self._election.get_ballots(), self._election.get_reported_results())
-            self.refresh_audit_status()
+            #self._audit.recompute(self._election.get_ballots(), self._election.get_reported_results())
+            # self._audit.recompute(self.audited_ballots, self._election.get_reported_results())
+            # self.refresh_audit_status()
         else:
             self.save_ballot()
-
+        #TODO: IS IT OK TO RECOMPUTE AFTER JUST CLICKING THE BUTTON WITHOUT HAVING TO MESS WITH THE VALUES?
+        self._audit.recompute(self.audited_ballots, self._election.get_reported_results())
+        self.refresh_audit_status()
         self.auditedBallotValue.setText(str(self.auditTable.rowCount()))
         self.reportedValueComboBox.setCurrentIndex(0)
         self.actualValueComboBox.setCurrentIndex(0)
@@ -752,22 +773,83 @@ class Ui_MainWindow(object):
         self.auditTable.horizontalHeaderItem(Ui_MainWindow.TableNum.ACTUAL_VALUE).setText(
             _translate("MainWindow", "Actual Value"))
 
-        for i, ballot in enumerate(sorted(self._election.get_ballots(), key=lambda x: x.get_audit_seq_num())):
+        # for i, ballot in enumerate(sorted(self._election.get_ballots(), key=lambda x: x.get_audit_seq_num())):
+        for i in range(0, self.current_audit_ballot):#ballot in self.audited_ballots:
             self.auditTable.insertRow(i)
-
+            ballot = self.audited_ballot_nums[i]
+            print ("BALLOT NUM: " + str(ballot))
             self.setTableCell(i, Ui_MainWindow.TableNum.AUDIT_NUM, str(i))
-            self.setTableCell(i, Ui_MainWindow.TableNum.BALLOT_NUM, str(ballot.get_physical_ballot_num()))
-            self.setTableCell(i, Ui_MainWindow.TableNum.REPORTED_VALUE, ballot.get_reported_value().get_name())
-            self.setTableCell(i, Ui_MainWindow.TableNum.ACTUAL_VALUE, ballot.get_actual_value().get_name())
+            self.setTableCell(i, Ui_MainWindow.TableNum.BALLOT_NUM, str(self.audited_ballots[i].get_physical_ballot_num()))
+            #self.setTableCell(i, Ui_MainWindow.TableNum.BALLOT_NUM, str(self.audited_ballots[i].get_physical_ballot_num()))
+            self.setTableCell(i, Ui_MainWindow.TableNum.REPORTED_VALUE, self.audited_ballots[i].get_reported_value().get_name())
+            self.setTableCell(i, Ui_MainWindow.TableNum.ACTUAL_VALUE, self.audited_ballots[i].get_actual_value().get_name())
+
+
+
+    def choose_next_ballot(self):
+        if(self.total_rows == 0):
+            self.set_csv_total_rows(self.filename)
+       # next_ballot = round(random.random() * self.total_rows*10) % self.total_rows
+        next_ballot = random.randint(2, self.total_rows)
+        print(next_ballot)
+        self.auditTable.insertRow(self.current_audit_ballot)
+        if self._election.get_ballots is None:
+            print("NULL")
+        # else:
+        #     print(len(self._election.get_ballots))
+        ballot = self._election.get_ballot(next_ballot-2)
+        ballot.set_audit_seq_num(self.current_audit_ballot)
+        self.audited_ballots.append(ballot)
+
+        self.audited_ballot_nums.append(ballot.get_physical_ballot_num())
+
+        self.current_audit_ballot = self.current_audit_ballot + 1
+        self.reload_audit_table()
+
+    def set_csv_total_rows(self, filename):
+        input_file = open(filename, "r+")
+        reader_file = csv.reader(input_file)
+        self.total_rows = len(list(reader_file))
+        random.seed(self.seed)
 
     def recompute_audit(self):
+        self.reload_audit_table()
         param = []
 
         for i in range(self.auditSpecialValuesTable.rowCount()):
             param.append(self.auditSpecialValuesTable.item(i, 1).text())
 
         self._audit.set_parameters(param)
-        self._audit.recompute(self._election.get_ballots(), self._election.get_reported_results())
+
+        if self._audit.get_name() != self.getAuditTypeComboBox().currentText():
+            self._audit = self._audits[int(self.getAuditTypeComboBoxSelectedIndex())]()
+            self._audit.init(self._election.get_reported_results(),
+                    self._election.get_ballot_count())
+
+            self.refresh_parameters()
+
+        else:
+            self._audit.set_parameters(param)
+            self.recompute_and_highlight()
+            self.refresh_audit_status()
+
+    def recompute_and_highlight(self):
+        stopped_ballot = self._audit.recompute(self.audited_ballots, 
+            self._election.get_reported_results())
+        
+        if stopped_ballot is not None and stopped_ballot.get_audit_seq_num() <= self.auditTable.rowCount():
+            for i in range(self.auditTable.columnCount()):
+                self.auditTable.item(stopped_ballot.get_audit_seq_num(), i).setBackground(
+                        QtGui.QColor(255, 154, 0))
+
+    def refresh_parameters(self):
+        self.auditSpecialValuesTable.setRowCount(0)
+
+        for i, param in enumerate(self._audit.get_parameters()):
+            self.auditSpecialValuesTable.insertRow(i)
+
+            self.setAuditSpecialValueTableCell(i, 0, param[0])
+            self.setAuditSpecialValueTableCell(i, 1, param[1])
 
     def refresh_audit_status(self):
         if self._audit is not None:
@@ -853,11 +935,7 @@ class Ui_MainWindow(object):
             self.actualValueComboBox_2.setCurrentIndex(self.getCurrentAuditIndex(self._audit))
 
             # Populate audit parameters
-            for i, param in enumerate(self._audit.get_parameters()):
-                self.auditSpecialValuesTable.insertRow(i)
-
-                self.setAuditSpecialValueTableCell(i, 0, param[0])
-                self.setAuditSpecialValueTableCell(i, 1, param[1])
+            self.refresh_parameters()
 
         else:
             # Set the audit selector drop down to "Select Audit"
@@ -878,17 +956,15 @@ class Ui_MainWindow(object):
         # self.tValue.setText(_translate("MainWindow", "0.0"))
         self.recomputeButton.setText(_translate("MainWindow", "Recompute"))
         self.exportButton.setText(_translate("MainWindow", "Export Results"))
-
+        self.choose_next_ballot()
 
 
 if __name__ == "__main__":
     import sys
-
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
     MainWindow.show()
-
-    app.exec_()
+    sys.exit(app.exec_())
 
