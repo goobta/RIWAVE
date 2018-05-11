@@ -29,6 +29,9 @@ class Election:
     def set_ballots(self, ballots):
         self._ballots = ballots
 
+    def get_ballot(self, index):
+        return self._ballots[index]
+
     def add_ballot(self, ballot):
         self._ballots.append(ballot)
 
