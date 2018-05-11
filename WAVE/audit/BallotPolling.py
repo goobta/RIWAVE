@@ -2,8 +2,8 @@ import audit
 import election
 
 
-class RLA(audit.Audit):
-    name = "Risk Limiting Audit"
+class BallotPolling(audit.Audit):
+    name = "Ballot Polling Audit"
     status_codes = ["In Progress", 
                     "Election Results Verified",
                     "Full Hand Count Required"]
@@ -13,12 +13,13 @@ class RLA(audit.Audit):
         self._s = -1
         self._margin = -1
         self._winner = -1
-        self._tolerance = -1
+        self._tolerance = .1
 
         self._status = 0
         self._cached_results = list()
+        self._ballot_count = None
 
-    def init(self, results):
+    def init(self, results, ballot_count):
         self._T = 1
         self._s = -1
         self._margin = -1
@@ -35,26 +36,31 @@ class RLA(audit.Audit):
         self._winner = results_sorted[0].get_contestant()
         self._margin = self._s - self._tolerance
 
+        self._ballot_count = ballot_count
+
         for result in results:
             self._cached_results.append([result.get_contestant(), 0])
 
     def get_progress(self):
-        return "T = %.4f" % self._T
+        return "T = {0:.4f}".format(self._T)
 
     def get_status(self):
-        return RLA.status_codes[self._status]
+       return BallotPolling.status_codes[self._status]
 
     @staticmethod
     def get_name():
-        return RLA.name
+        return BallotPolling.name
 
     def get_parameters(self):
-        param = [["Tolerance", "%.1f" % (self._tolerance * 100)]]
+        param = [["Tolerance", "{0:.2f}%".format(self._tolerance * 100)]]
         
         return param
 
     def set_parameters(self, param):
-        self._tolerance = float(param[0]) / 100
+        if isinstance(param[0], int):
+            self._tolerance = float(param[0]) / 100
+        else:
+            self._tolerance = float(param[0].replace("%", "")) / 100
 
     def compute(self, ballot):
         ballot_vote = ballot.get_actual_value()
@@ -82,10 +88,13 @@ class RLA(audit.Audit):
             self._status = 0
 
     def recompute(self, ballots, results):
-        self.init(results)
+        self.init(results, self._ballot_count)
 
         for ballot in ballots:
             self.compute(ballot)
+
+            if self._T > 9.9 or self._T < 0.011:
+                return ballot
 
     def get_current_result(self):
         count = 0

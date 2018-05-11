@@ -2,8 +2,9 @@ import sys
 import inspect
 
 from audit.Audit import Audit
-from audit.RLA import RLA
-from audit.Bayesian import Bayesian
+from audit.BallotPolling import BallotPolling
+from audit.Comparision import Comparision
+# from audit.Bayesian import Bayesian
 
 
 def get_audits():

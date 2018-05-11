@@ -21,3 +21,15 @@ class Contestant:
                 return True
 
         return False
+
+class Undervote(Contestant):
+    CID = -2
+
+    def __init__(self):
+        super().__init__(Undervote.CID, "undervote")
+
+class Overvote(Contestant):
+    CID = -3 
+
+    def __init__(self):
+        super().__init__(Overvote.CID, "overvote")

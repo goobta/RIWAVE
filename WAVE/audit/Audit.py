@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 
 class Audit(ABC):
     @abstractmethod
-    def init(self, results):
+    def init(self, results, ballot_count):
         pass
 
     @abstractmethod
