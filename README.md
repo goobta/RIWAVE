@@ -122,11 +122,11 @@ where the audit had stopped, as shown below:
 ![Last Ballot Audited][last_ballot]
 
 
-[seed_gen]: https://imgur.com/25G2mwG
-[station_main]: https://imgur.com/MpwTU5B
-[station_audit_table]: https://imgur.com/kz6U8dQ
-[station_ele_details]: https://imgur.com/92cT38l
-[station_current_ballot]: https://imgur.com/HJEAIs5
-[station_progress]: https://imgur.com/Mgviij9
-[station_audit_details]: https://imgur.com/ckT2KtO
-[last_ballot]: https://imgur.com/5n2b5sJ
+[seed_gen]: https://imgur.com/25G2mwG "Seed Generation"
+[station_main]: https://imgur.com/MpwTU5B "Main Screen"
+[station_audit_table]: https://imgur.com/kz6U8dQ "Audit Table"
+[station_ele_details]: https://imgur.com/92cT38l "Election Details"
+[station_current_ballot]: https://imgur.com/HJEAIs5 "Current Ballot"
+[station_progress]: https://imgur.com/Mgviij9 "Progress"
+[station_audit_details]: https://imgur.com/ckT2KtO "Audit Details"
+[last_ballot]: https://imgur.com/5n2b5sJ "Switching Settings"
