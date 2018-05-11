@@ -3,6 +3,24 @@ A mathematically hot-swappable audit station designed for conducting RLA's in
 Rhode Island.
 
 # Execution Directions
+
+Go to [releases](https://github.com/agupta231/RIWAVE/releases) and download the latest
+version relevant to your platform. 
+
+## Windows
+
+Download the compressed file that starts with `windows_`. Unzip the file and double click
+the `Audit Station` executable in the folder.
+
+## macOS
+
+Download the compressed file that starts with `mac`. Unzip the file. Open
+`/Applications/Utilities/Terminal.app/`. In Terminal, type in `cd` and drag the folder into
+the Terminal. Your terminal should look something like `cd 
+/Users/test_user/Downloads/mac_RI_special`. Press enter. Type `./audit_station` and press
+enter.
+
+# For Developers
 This project is built using **Python 3**. 
 
 If you already have pip installed (Just try running `pip` from the command line), simply 
