@@ -34,3 +34,6 @@ class Election:
 
     def add_ballot(self, ballot):
         self._ballots.append(ballot)
+
+    def get_ballot_count(self):
+        return len(self._ballots)

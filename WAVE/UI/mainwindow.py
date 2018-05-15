@@ -37,7 +37,6 @@ class Ui_MainWindow(object):
 
         self._audits = audit.get_audits()
 
-
     def init(self, election, audit,seed):
         self._election = election
         self._audit = audit
@@ -713,6 +712,7 @@ class Ui_MainWindow(object):
 
         self.reload_audit_table()
         self._audit.recompute(self.audited_ballots, self._election.get_reported_results())
+        self.recompute_and_highlight()
         self.refresh_audit_status()
 
     def save_and_add_ballot(self):
@@ -815,18 +815,44 @@ class Ui_MainWindow(object):
         self.total_rows = len(list(reader_file))
         random.seed(self.seed)
 
-
-
-
-
     def recompute_audit(self):
+        self.reload_audit_table()
         param = []
 
         for i in range(self.auditSpecialValuesTable.rowCount()):
             param.append(self.auditSpecialValuesTable.item(i, 1).text())
 
         self._audit.set_parameters(param)
-        self._audit.recompute(self.audited_ballots, self._election.get_reported_results())
+
+        if self._audit.get_name() != self.getAuditTypeComboBox().currentText():
+            self._audit = self._audits[int(self.getAuditTypeComboBoxSelectedIndex())]()
+            self._audit.init(self._election.get_reported_results(),
+                    self._election.get_ballot_count())
+
+            self.refresh_parameters()
+
+        else:
+            self._audit.set_parameters(param)
+            self.recompute_and_highlight()
+            self.refresh_audit_status()
+
+    def recompute_and_highlight(self):
+        stopped_ballot = self._audit.recompute(self._election.get_ballots(), 
+            self._election.get_reported_results())
+        
+        if stopped_ballot is not None:
+            for i in range(self.auditTable.columnCount()):
+                self.auditTable.item(stopped_ballot.get_audit_seq_num(), i).setBackground(
+                        QtGui.QColor(255, 154, 0))
+
+    def refresh_parameters(self):
+        self.auditSpecialValuesTable.setRowCount(0)
+
+        for i, param in enumerate(self._audit.get_parameters()):
+            self.auditSpecialValuesTable.insertRow(i)
+
+            self.setAuditSpecialValueTableCell(i, 0, param[0])
+            self.setAuditSpecialValueTableCell(i, 1, param[1])
 
     def refresh_audit_status(self):
         if self._audit is not None:
@@ -912,11 +938,7 @@ class Ui_MainWindow(object):
             self.actualValueComboBox_2.setCurrentIndex(self.getCurrentAuditIndex(self._audit))
 
             # Populate audit parameters
-            for i, param in enumerate(self._audit.get_parameters()):
-                self.auditSpecialValuesTable.insertRow(i)
-
-                self.setAuditSpecialValueTableCell(i, 0, param[0])
-                self.setAuditSpecialValueTableCell(i, 1, param[1])
+            self.refresh_parameters()
 
         else:
             # Set the audit selector drop down to "Select Audit"
