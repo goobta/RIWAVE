@@ -50,7 +50,7 @@ class Ui_Seed_Generation(object):
         self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_2.setSpacing(15)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
-        self.seedValueTextEdit = QtWidgets.QTextEdit(self.centralwidget)
+        self.seedValueTextEdit = QtWidgets.QLineEdit(self.centralwidget)
         self.seedValueTextEdit.setMinimumSize(QtCore.QSize(800, 50))
         self.seedValueTextEdit.setMaximumSize(QtCore.QSize(1000, 50))
         font = QtGui.QFont()
@@ -59,12 +59,13 @@ class Ui_Seed_Generation(object):
         self.seedValueTextEdit.setFont(font)
         self.seedValueTextEdit.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.seedValueTextEdit.setInputMethodHints(QtCore.Qt.ImhFormattedNumbersOnly)
-        self.seedValueTextEdit.setFrameShadow(QtWidgets.QFrame.Plain)
-        self.seedValueTextEdit.setLineWidth(2)
-        self.seedValueTextEdit.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
-        self.seedValueTextEdit.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
-        self.seedValueTextEdit.setLineWrapMode(QtWidgets.QTextEdit.NoWrap)
-        self.seedValueTextEdit.setOverwriteMode(True)
+        self.seedValueTextEdit.setMaxLength(20)
+        #self.seedValueTextEdit.setFrameShadow(QtWidgets.QFrame.Plain)
+        #self.seedValueTextEdit.setLineWidth(2)
+        #self.seedValueTextEdit.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+        #self.seedValueTextEdit.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+        #self.seedValueTextEdit.setLineWrapMode(QtWidgets.QTextEdit.NoWrap)
+        # self.seedValueTextEdit.setOverwriteMode(True)
         self.seedValueTextEdit.setObjectName("seedValueTextEdit")
         self.horizontalLayout_2.addWidget(self.seedValueTextEdit)
         self.confirmButton = QtWidgets.QPushButton(self.centralwidget)
@@ -104,16 +105,15 @@ class Ui_Seed_Generation(object):
         self.backButton.clicked.connect(self.back)
         self.exitButton.clicked.connect(self.exit)
         self.saveConfigurationButton.clicked.connect(self.save_configuration)
+        # self.onlyInt = QtGui.QIntValidator()
+        # self.seedValueTextEdit.setValidator(self.onlyInt)
+        self.seedValueTextEdit.setInputMask("999999999999999999999999999999")
+
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.label.setText(_translate("MainWindow", "RI WAVE - Seed Generation"))
-        self.seedValueTextEdit.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Calibri\'; font-size:16pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:14pt;\"><br /></p></body></html>"))
         self.seedValueTextEdit.setPlaceholderText(_translate("MainWindow", "Enter Seed Here"))
         self.confirmButton.setText(_translate("MainWindow", "Confirm"))
         self.backButton.setText(_translate("MainWindow", "Back"))
@@ -129,7 +129,6 @@ class Ui_Seed_Generation(object):
     def init(self, election, audit):
         self._election = election
         self._audit = audit
-        # TODO: Seed PRNG here
 
     def confirm_seed(self):
         print(self.get_seed_text())
@@ -140,7 +139,7 @@ class Ui_Seed_Generation(object):
 
 
     def get_seed_text(self):
-        return self.seedValueTextEdit.toPlainText()
+        return self.seedValueTextEdit.text()
 
     # TODO: Implement if needed
     def back(self):
@@ -154,14 +153,9 @@ class Ui_Seed_Generation(object):
     def open_main_window(self):
         self.window = QtWidgets.QMainWindow()
         self.ui = UI.Ui_MainWindow()
-        self.ui.init(self._election, self._audit, self.seed)
+        self.ui.init(self._election, self._audit, int(self.seed))
         self.ui.setupUi(self.window)
         self.window.show()
-        # self.mainwindow2 = UI.Ui_MainWindow(self)
-        # self.mainwindow2.closed.connect(self.show())
-        # self.mainwindow2.show()
-        # self.hide()
-
 
     #TODO: Call main window for audit
     def save_configuration(self):
@@ -170,14 +164,6 @@ class Ui_Seed_Generation(object):
             random.seed(self.seed)
             print(random.random())
             self.open_main_window()
-
-
-
-            # max = 100
-        # factor = 100000
-        # print(round(random.random()*factor)%max)
-
-
 
 
 

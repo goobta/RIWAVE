@@ -22,7 +22,7 @@ class Ui_MainWindow(object):
     total_rows = 0
     filename = 'Election_Params.csv'
     seed = 0
-    audit_type = "bcrla"
+    #audit_type = "bcrla"
 
     class TableNum(enum.IntEnum):
         AUDIT_NUM = 0
@@ -513,6 +513,8 @@ class Ui_MainWindow(object):
         self.recomputeButton.clicked.connect(self.recompute_audit)
         self.justSaveButton.clicked.connect(self.save_ballot)
         self.saveAndNextButton.clicked.connect(self.save_and_add_ballot)
+        self.actualValueComboBox_2.currentIndexChanged.connect(self.modify_UI_listener)
+
 
     def retranslateUi_backup(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -642,7 +644,7 @@ class Ui_MainWindow(object):
     #     return self.tLabel;
     #TODO: Change this to get the actual audit type, the return value is a placeholder
     def get_audit_type(self):
-        return self.audit_type
+        return self.getAuditTypeComboBox().currentIndex()
 
     def setTableCell(self, row, col, value):
         self.auditTable.setItem(row, col, QtWidgets.QTableWidgetItem(value))
@@ -961,10 +963,9 @@ class Ui_MainWindow(object):
         self.recomputeButton.setText(_translate("MainWindow", "Recompute"))
         self.exportButton.setText(_translate("MainWindow", "Export Results"))
         self.choose_next_ballot()
-        if(self.get_audit_type() == "bcrla"):
-            self.set_bcrla_UI()
 
-    def set_bcrla_UI(self):
+
+    def set_bprla_UI(self):
         self.auditTable.setColumnHidden(2, True)
         self.reportedValueComboBox.setDisabled(True)
         # self.reportedValueComboBox.setHidden(True)
@@ -973,7 +974,15 @@ class Ui_MainWindow(object):
 
         #self.gridLayout_2.addWidget(self.actualValueLabel, 13, 5, 1, 1)
 
+    def set_comp_rla_UI(self):
+        self.auditTable.setColumnHidden(2, False)
+        self.reportedValueComboBox.setDisabled(False)
 
+    def modify_UI_listener(self):
+        if (self.get_audit_type() == 1):
+            self.set_bprla_UI()
+        elif (self.get_audit_type() == 2):
+            self.set_comp_rla_UI()
 
 
 
