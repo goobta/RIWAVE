@@ -13,7 +13,7 @@ class BallotPolling(audit.Audit):
         self._s = -1
         self._margin = -1
         self._winner = -1
-        self._tolerance = .1
+        self._tolerance = .01
 
         self._status = 0
         self._cached_results = list()
@@ -40,6 +40,10 @@ class BallotPolling(audit.Audit):
 
         for result in results:
             self._cached_results.append([result.get_contestant(), 0])
+
+        print("Winner: {}".format(self._winner.get_name()))
+        print("Init T: {}".format(self._T))
+        print("Init Margin: {}".format(self._margin))
 
     def get_progress(self):
         return "T = {0:.4f}".format(self._T)
