@@ -31,8 +31,12 @@ class Rispecial:
     def _set_reported_results(self):
         self._results = []
 
-        self._results.append(election.Result(self._contestants[0], self.num_approve/self.total_ballots))
-        self._results.append(election.Result(self._contestants[1], self.num_reject/self.total_ballots))
+        self._results.append(election.Result(self._contestants[0], 
+            self.num_approve/self.total_ballots, 
+            self.num_approve))
+        self._results.append(election.Result(self._contestants[1], 
+            self.num_reject/self.total_ballots,
+            self.num_reject))
 
         self._election.set_reported_results(self._results)
 

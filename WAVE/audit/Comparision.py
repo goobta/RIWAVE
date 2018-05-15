@@ -59,6 +59,12 @@ class Comparision(audit.Audit):
                     )
                 ))
 
+        print("Results:")
+        
+        for r in results_sorted:
+            print("Contestant: {}".format(r.get_contestant().get_name()))
+            print("Votes: {}".format(r.get_votes()))
+
         print("Initial Stopping Count: {}".format(self._stopping_count))
         print("Margin: {}".format(margin))
         print("Total Votes: {}".format(self._ballot_count))
@@ -157,6 +163,7 @@ class Comparision(audit.Audit):
         self._refresh_status()
 
         print("\n")
+        print("Ballot {}".format(ballot.get_audit_seq_num()))
         print("Actual: {}".format(ballot.get_actual_value().get_name()))
         print("Reported: {}".format(ballot.get_reported_value().get_name()))
         print("Stopping Count: {}".format(self._stopping_count))

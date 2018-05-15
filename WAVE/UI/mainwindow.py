@@ -802,6 +802,7 @@ class Ui_MainWindow(object):
         # else:
         #     print(len(self._election.get_ballots))
         ballot = self._election.get_ballot(next_ballot-2)
+        ballot.set_audit_seq_num(self.current_audit_ballot)
         self.audited_ballots.append(ballot)
 
         self.audited_ballot_nums.append(ballot.get_physical_ballot_num())
@@ -837,10 +838,10 @@ class Ui_MainWindow(object):
             self.refresh_audit_status()
 
     def recompute_and_highlight(self):
-        stopped_ballot = self._audit.recompute(self._election.get_ballots(), 
+        stopped_ballot = self._audit.recompute(self.audited_ballots, 
             self._election.get_reported_results())
         
-        if stopped_ballot is not None:
+        if stopped_ballot is not None and stopped_ballot.get_audit_seq_num() <= self.auditTable.rowCount():
             for i in range(self.auditTable.columnCount()):
                 self.auditTable.item(stopped_ballot.get_audit_seq_num(), i).setBackground(
                         QtGui.QColor(255, 154, 0))
