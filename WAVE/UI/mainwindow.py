@@ -963,6 +963,10 @@ class Ui_MainWindow(object):
         self.recomputeButton.setText(_translate("MainWindow", "Recompute"))
         self.exportButton.setText(_translate("MainWindow", "Export Results"))
         self.choose_next_ballot()
+        if (self.get_audit_type() == 1):
+            self.set_bprla_UI()
+        elif (self.get_audit_type() == 2):
+            self.set_comp_rla_UI()
 
 
     def set_bprla_UI(self):
